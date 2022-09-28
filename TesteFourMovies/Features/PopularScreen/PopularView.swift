@@ -57,15 +57,27 @@ class PopularView: UIViewController {
         return label
     }()
     
+    private lazy var backgroundCollectionView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 51.00/255.00, green: 51.00/255.00, blue: 51.00/255.00, alpha: 1.00)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private lazy var movieCollectionView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
         collectionViewLayout.scrollDirection = .vertical
-        collectionViewLayout.itemSize = CGSize(width: 100, height: 150)
-        collectionViewLayout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 20, right: 20)
-        
+        collectionViewLayout.minimumLineSpacing = 25
+        collectionViewLayout.minimumInteritemSpacing = 5
+        collectionViewLayout.itemSize = CGSize(width: (view.frame.size.width/3)-4,
+                                               height: (view.frame.size.width/2)-4)
+
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         collectionView.backgroundColor = UIColor(red: 51.00/255.00, green: 51.00/255.00, blue: 51.00/255.00, alpha: 1.00)
-        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.frame = view.bounds
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -74,8 +86,10 @@ class PopularView: UIViewController {
         super.viewDidLoad()
         addSubviews()
         setupConstraints()
+//        moviesCollection()
         
         view.backgroundColor = UIColor(red: 31.00/255.00, green: 31.00/255.00, blue: 31.00/255.00, alpha: 1.00)
+  
     }
         
     // MARK: - Functions
@@ -94,6 +108,25 @@ class PopularView: UIViewController {
         view.addSubview(popularMoviesLabel)
         view.addSubview(removeCenterBorder)
         view.addSubview(movieCollectionView)
+//        view.addSubview(backgroundCollectionView)
+    }
+    
+    func moviesCollection() {
+        let collectionLayout = UICollectionViewFlowLayout()
+        collectionLayout.scrollDirection = .vertical
+        collectionLayout.minimumLineSpacing = 50
+        collectionLayout.minimumInteritemSpacing = 5
+        collectionLayout.itemSize = CGSize(width: (view.frame.size.width/3)-4,
+                                              height: (view.frame.size.width/2)-4)
+                 
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.frame = view.bounds
+        collectionView.backgroundColor = UIColor(red: 51.00/255.00, green: 51.00/255.00, blue: 51.00/255.00, alpha: 1.00)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundCollectionView.addSubview(collectionView)
     }
     
     func setupConstraints() {
@@ -120,7 +153,27 @@ class PopularView: UIViewController {
             movieCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             movieCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             movieCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+//            backgroundCollectionView.topAnchor.constraint(equalTo: popularMoviesLabel.bottomAnchor, constant: 20),
+//            backgroundCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+//            backgroundCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+//            backgroundCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
         ])
     }
         
+}
+
+extension PopularView: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 12
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        cell.backgroundColor = .systemYellow
+        return cell
+    }
+    
+    
 }
