@@ -15,6 +15,7 @@ class MovieDetailsView: UIViewController{
         banner.frame = CGRect(x: 0, y: 0, width: 199, height: 50)
         banner.translatesAutoresizingMaskIntoConstraints = false
         banner.contentMode = .scaleAspectFill
+        banner.backgroundColor = .blue
         return banner
     }()
     
@@ -23,7 +24,7 @@ class MovieDetailsView: UIViewController{
         title.translatesAutoresizingMaskIntoConstraints = false
         title.text = "Teste"
         title.textColor = .white
-        title.font = UIFont(name: "Arial", size: 18)
+        title.font = UIFont(name: "Arial Bold", size: 18)
         return title
     }()
     
@@ -67,21 +68,21 @@ class MovieDetailsView: UIViewController{
         
         NSLayoutConstraint.activate([
         
-            bannerView.topAnchor.constraint(equalTo: view.topAnchor, constant: CGFloat(65)),
-            bannerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: CGFloat(25)),
-            bannerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: CGFloat(-150)),
-            bannerView.heightAnchor.constraint(equalToConstant: CGFloat(50)),
+            bannerView.topAnchor.constraint(equalTo: view.topAnchor, constant: CGFloat(0)),
+            bannerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: CGFloat(0)),
+            bannerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: CGFloat(0)),
+            bannerView.heightAnchor.constraint(equalToConstant: CGFloat(350)),
             
             titleMovie.topAnchor.constraint(equalTo: bannerView.bottomAnchor, constant: CGFloat(20)),
-            titleMovie.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: CGFloat(25)),
-            titleMovie.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: CGFloat(-200)),
+            titleMovie.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: CGFloat(15)),
+            titleMovie.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: CGFloat(-300)),
             
-            yearMovie.topAnchor.constraint(equalTo: bannerView.bottomAnchor, constant: 20),
+            yearMovie.topAnchor.constraint(equalTo: bannerView.bottomAnchor, constant: 22),
             yearMovie.leadingAnchor.constraint(equalTo: titleMovie.trailingAnchor, constant: 10),
             
             characteristicsMovie.topAnchor.constraint(equalTo: titleMovie.bottomAnchor, constant: 15),
-            characteristicsMovie.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
-            characteristicsMovie.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -200)
+            characteristicsMovie.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            characteristicsMovie.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
     }
 }
