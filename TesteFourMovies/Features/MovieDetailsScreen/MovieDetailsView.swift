@@ -6,3 +6,14 @@
 //
 
 import UIKit
+
+class MovieDetailsView: UIViewController{
+    
+    override func loadView() {
+        super.loadView()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+}
