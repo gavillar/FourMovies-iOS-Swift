@@ -23,9 +23,8 @@ final class UpcomingView: UIViewController{
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Upcoming", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.setTitleColor(.black, for: .selected)
-        button.backgroundColor = .black
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .white
         button.layer.borderColor = UIColor(cgColor: CGColor(red: 250/255, green: 238/255, blue: 239/255, alpha: 1)).cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 5
@@ -40,7 +39,6 @@ final class UpcomingView: UIViewController{
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Popular", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.setTitleColor(.black, for: .selected)
         button.backgroundColor = .black
         button.layer.borderColor = UIColor(cgColor: CGColor(red: 250/255, green: 238/255, blue: 239/255, alpha: 1)).cgColor
         button.layer.borderWidth = 1
@@ -67,17 +65,12 @@ final class UpcomingView: UIViewController{
         
         setupView()
         setupConstrains()
-        startButton()
+       
         
       
     }
     
-    func startButton() {
-        popularButton.backgroundColor = .white
-        popularButton.setTitleColor(.black, for: .selected)
-        popularButton.isSelected.toggle()
     
-    }
     
     func setupView() {
         
@@ -89,33 +82,15 @@ final class UpcomingView: UIViewController{
     }
     
     @objc func actionUpComingButton() {
-        UpcomingButton.isSelected.toggle()
+     
         
         
-        if UpcomingButton.isSelected {
-            
-            UpcomingButton.backgroundColor = .white
-            removeCenterBorder.isHidden = true
-        } else {
-            
-            UpcomingButton.backgroundColor = .black
-            removeCenterBorder.isHidden = false
-        }
+       
         
     }
     
     @objc func actionPopularButton() {
-        popularButton.isSelected.toggle()
-        
-        if popularButton.isSelected {
-            
-            popularButton.backgroundColor = .white
-            removeCenterBorder.isHidden = true
-        } else {
-            
-            popularButton.backgroundColor = .black
-            removeCenterBorder.isHidden = false
-        }
+      
         
     }
     
@@ -137,7 +112,7 @@ final class UpcomingView: UIViewController{
             removeCenterBorder.topAnchor.constraint(equalTo: popularButton.topAnchor, constant: 1),
             removeCenterBorder.bottomAnchor.constraint(equalTo: popularButton.bottomAnchor, constant: -1),
             removeCenterBorder.leadingAnchor.constraint(equalTo: popularButton.leadingAnchor),
-            removeCenterBorder.widthAnchor.constraint(equalToConstant: 5),
+            removeCenterBorder.widthAnchor.constraint(equalToConstant: 3),
             
             
             popularMoviesLabel.topAnchor.constraint(equalTo: popularButton.bottomAnchor, constant: 20),
