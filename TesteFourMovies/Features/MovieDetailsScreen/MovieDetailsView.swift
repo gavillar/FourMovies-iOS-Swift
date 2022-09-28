@@ -51,7 +51,7 @@ class MovieDetailsView: UIViewController{
     private lazy var backgroundView: UIView = {
        let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .darkGray
+        view.backgroundColor = UIColor(red: 0.098, green: 0.106, blue: 0.114, alpha: 1)
         return view
     }()
 
@@ -69,7 +69,7 @@ class MovieDetailsView: UIViewController{
         
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
      
-        collectionView.backgroundColor = .darkGray
+        collectionView.backgroundColor = UIColor(red: 0.098, green: 0.106, blue: 0.114, alpha: 1)
         collectionView.showsHorizontalScrollIndicator = false
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -85,6 +85,16 @@ class MovieDetailsView: UIViewController{
         
     }
     
+    let synopsisLabel: UILabel = {
+        let synopsis = UILabel()
+        synopsis.translatesAutoresizingMaskIntoConstraints = false
+        synopsis.text = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        synopsis.textColor = .white
+        synopsis.numberOfLines = 0
+        synopsis.adjustsFontSizeToFitWidth = true
+        synopsis.font = UIFont(name: "Arial", size: 14)
+        return synopsis
+    }()
     
     override func loadView() {
         super.loadView()
@@ -102,6 +112,7 @@ class MovieDetailsView: UIViewController{
         view.addSubview(yearMovie)
         view.addSubview(characteristicsMovie)
         view.addSubview(backgroundView)
+        backgroundView.addSubview(synopsisLabel)
     }
     
     /// This function handles the constraints of view elements
@@ -129,6 +140,10 @@ class MovieDetailsView: UIViewController{
             backgroundView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             backgroundView.widthAnchor.constraint(equalTo: view.widthAnchor),
             backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            synopsisLabel.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: 250),
+            synopsisLabel.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: 20),
+            synopsisLabel.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -20)
         
             
            
