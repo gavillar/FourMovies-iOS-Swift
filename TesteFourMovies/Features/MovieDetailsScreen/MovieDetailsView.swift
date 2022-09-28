@@ -9,6 +9,8 @@ import UIKit
 
 class MovieDetailsView: UIViewController{
     
+    private var collectionView: UICollectionView?
+    
     let bannerView: UIImageView = {
         let image = UIImage(named: "")
         let banner = UIImageView(image: image)
@@ -46,13 +48,51 @@ class MovieDetailsView: UIViewController{
         return characteristics
     }()
     
+    private lazy var backgroundView: UIView = {
+       let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .darkGray
+        return view
+    }()
+
+    private func castCollection() {
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: 150, height: 200)
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 15
+        
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+        guard let collectionView = collectionView else {
+            return
+        }
+        
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+     
+        collectionView.backgroundColor = .darkGray
+        collectionView.showsHorizontalScrollIndicator = false
+        
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundView.addSubview(collectionView)
+        
+        collectionView.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: 20).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: 20).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -20).isActive = true
+        collectionView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+    }
     
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func loadView() {
+        super.loadView()
+        self.view.backgroundColor = .black
         addSubViews()
         setConstraints()
-        view.backgroundColor = .black
+        castCollection()
+        
     }
     
     /// This function handles the display of view elements
@@ -61,6 +101,7 @@ class MovieDetailsView: UIViewController{
         view.addSubview(titleMovie)
         view.addSubview(yearMovie)
         view.addSubview(characteristicsMovie)
+        view.addSubview(backgroundView)
     }
     
     /// This function handles the constraints of view elements
@@ -71,7 +112,7 @@ class MovieDetailsView: UIViewController{
             bannerView.topAnchor.constraint(equalTo: view.topAnchor, constant: CGFloat(0)),
             bannerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: CGFloat(0)),
             bannerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: CGFloat(0)),
-            bannerView.heightAnchor.constraint(equalToConstant: CGFloat(350)),
+            bannerView.heightAnchor.constraint(equalToConstant: CGFloat(300)),
             
             titleMovie.topAnchor.constraint(equalTo: bannerView.bottomAnchor, constant: CGFloat(20)),
             titleMovie.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: CGFloat(15)),
@@ -82,7 +123,33 @@ class MovieDetailsView: UIViewController{
             
             characteristicsMovie.topAnchor.constraint(equalTo: titleMovie.bottomAnchor, constant: 15),
             characteristicsMovie.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-            characteristicsMovie.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            characteristicsMovie.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            backgroundView.topAnchor.constraint(equalTo: characteristicsMovie.bottomAnchor, constant: 20),
+            backgroundView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            backgroundView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        
+            
+           
         ])
     }
+    
+}
+
+extension MovieDetailsView: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        5
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        
+        cell.contentView.backgroundColor = .lightGray
+        
+        return cell
+    }
+    
+    
 }
