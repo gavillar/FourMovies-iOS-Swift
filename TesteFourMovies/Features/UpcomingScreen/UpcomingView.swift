@@ -50,26 +50,33 @@ final class UpcomingView: UIViewController{
     }()
     
     
-    
+    private lazy var popularMoviesLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Popular Movies"
+        label.textColor = .white
+        label.textAlignment = .left
+        label.font = UIFont.boldSystemFont(ofSize: 40)
+        return label
+    }()
     
     override func loadView() {
         super.loadView()
         self.view.backgroundColor = UIColor.black
         
+        
         setupView()
         setupConstrains()
-        
-        getApi()
+        startButton()
         
       
     }
     
-    func getApi() {
-        
-       
-        
-        
-        
+    func startButton() {
+        popularButton.backgroundColor = .white
+        popularButton.setTitleColor(.black, for: .selected)
+        popularButton.isSelected.toggle()
+    
     }
     
     func setupView() {
@@ -77,6 +84,7 @@ final class UpcomingView: UIViewController{
         view.addSubview(UpcomingButton)
         view.addSubview(popularButton)
         view.addSubview(removeCenterBorder)
+        view.addSubview(popularMoviesLabel)
         
     }
     
@@ -129,8 +137,15 @@ final class UpcomingView: UIViewController{
             removeCenterBorder.topAnchor.constraint(equalTo: popularButton.topAnchor, constant: 1),
             removeCenterBorder.bottomAnchor.constraint(equalTo: popularButton.bottomAnchor, constant: -1),
             removeCenterBorder.leadingAnchor.constraint(equalTo: popularButton.leadingAnchor),
-            removeCenterBorder.widthAnchor.constraint(equalToConstant: 5)
+            removeCenterBorder.widthAnchor.constraint(equalToConstant: 5),
+            
+            
+            popularMoviesLabel.topAnchor.constraint(equalTo: popularButton.bottomAnchor, constant: 20),
+            popularMoviesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
+            
+            
             ])
+        
         
         
             }
