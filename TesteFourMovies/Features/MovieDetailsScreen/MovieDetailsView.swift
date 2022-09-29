@@ -48,17 +48,9 @@ class MovieDetailsView: UIViewController{
         return characteristics
     }()
     
-    private lazy var backgroundView: UIView = {
-       let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(red: 0.098, green: 0.106, blue: 0.114, alpha: 1)
-        return view
-    }()
-    
     private lazy var viewInScroll: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(red: 0.098, green: 0.106, blue: 0.114, alpha: 1)
         
         return view
     }()
@@ -88,11 +80,11 @@ class MovieDetailsView: UIViewController{
         collectionView.showsHorizontalScrollIndicator = false
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        backgroundView.addSubview(collectionView)
+        viewInScroll.addSubview(collectionView)
         
         collectionView.topAnchor.constraint(equalTo: characteristicsMovie.bottomAnchor, constant: 15).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: 15).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -15).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: viewInScroll.leadingAnchor, constant: 15).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: viewInScroll.trailingAnchor, constant: -15).isActive = true
         collectionView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         
         collectionView.delegate = self
@@ -138,14 +130,13 @@ class MovieDetailsView: UIViewController{
     /// This function handles the display of view elements
     private func addSubViews() {
         view.addSubview(scrollView)
-        scrollView.addSubview(backgroundView)
-        backgroundView.addSubview(bannerView)
-        backgroundView.addSubview(titleMovie)
-        backgroundView.addSubview(yearMovie)
-        backgroundView.addSubview(characteristicsMovie)
-        backgroundView.addSubview(line)
-        backgroundView.addSubview(viewInScroll)
-        backgroundView.addSubview(synopsisLabel)
+        scrollView.addSubview(viewInScroll)
+        viewInScroll.addSubview(bannerView)
+        viewInScroll.addSubview(titleMovie)
+        viewInScroll.addSubview(yearMovie)
+        viewInScroll.addSubview(characteristicsMovie)
+        viewInScroll.addSubview(line)
+        viewInScroll.addSubview(synopsisLabel)
         
     }
     
@@ -159,36 +150,31 @@ class MovieDetailsView: UIViewController{
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
-            backgroundView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-            backgroundView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            backgroundView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            backgroundView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            viewInScroll.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            viewInScroll.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            viewInScroll.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            viewInScroll.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
         
-            bannerView.topAnchor.constraint(equalTo: backgroundView.topAnchor),
-            bannerView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: CGFloat(0)),
-            bannerView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: CGFloat(0)),
+            bannerView.topAnchor.constraint(equalTo: viewInScroll.topAnchor),
+            bannerView.leadingAnchor.constraint(equalTo: viewInScroll.leadingAnchor, constant: CGFloat(0)),
+            bannerView.trailingAnchor.constraint(equalTo: viewInScroll.trailingAnchor, constant: CGFloat(0)),
             bannerView.heightAnchor.constraint(equalToConstant: 300),
             
             titleMovie.topAnchor.constraint(equalTo: bannerView.bottomAnchor, constant: 20),
-            titleMovie.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: 15),
-            titleMovie.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -300),
+            titleMovie.leadingAnchor.constraint(equalTo: viewInScroll.leadingAnchor, constant: 15),
+            titleMovie.trailingAnchor.constraint(equalTo: viewInScroll.trailingAnchor, constant: -300),
             
             yearMovie.topAnchor.constraint(equalTo: bannerView.bottomAnchor, constant: 22),
             yearMovie.leadingAnchor.constraint(equalTo: titleMovie.trailingAnchor, constant: 10),
             
             characteristicsMovie.topAnchor.constraint(equalTo: titleMovie.bottomAnchor, constant: 15),
-            characteristicsMovie.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: 15),
-            characteristicsMovie.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -20),
+            characteristicsMovie.leadingAnchor.constraint(equalTo: viewInScroll.leadingAnchor, constant: 15),
+            characteristicsMovie.trailingAnchor.constraint(equalTo: viewInScroll.trailingAnchor, constant: -20),
             
             line.topAnchor.constraint(equalTo: characteristicsMovie.bottomAnchor, constant: 230),
-            line.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -15),
-            line.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: 15),
+            line.trailingAnchor.constraint(equalTo: viewInScroll.trailingAnchor, constant: -15),
+            line.leadingAnchor.constraint(equalTo: viewInScroll.leadingAnchor, constant: 15),
             line.heightAnchor.constraint(equalToConstant: 0.5),
-            
-            viewInScroll.topAnchor.constraint(equalTo: line.bottomAnchor),
-            viewInScroll.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
-            viewInScroll.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
-            viewInScroll.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor),
             
             synopsisLabel.topAnchor.constraint(equalTo: line.bottomAnchor, constant: 15),
             synopsisLabel.leadingAnchor.constraint(equalTo: viewInScroll.leadingAnchor, constant: 15),
