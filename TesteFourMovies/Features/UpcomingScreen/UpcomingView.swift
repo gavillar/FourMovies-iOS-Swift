@@ -9,6 +9,16 @@ import UIKit
 
 final class UpcomingView: UIViewController {
     
+    
+    let upcomingviewmodel = UpcomingViewModel()
+    
+    var dataList = [Result]()
+    
+    override var prefersStatusBarHidden: Bool {
+        false
+    }
+    
+    
     private var collectionView: UICollectionView?
     
     
@@ -59,6 +69,7 @@ final class UpcomingView: UIViewController {
     }()
     
     
+    
     private lazy var upcomingMoviesLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -80,10 +91,10 @@ final class UpcomingView: UIViewController {
     private func moviesCollection() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 50
+        layout.minimumLineSpacing = 40
         layout.minimumInteritemSpacing = 5
         layout.itemSize = CGSize(width: (view.frame.size.width/3)-4,
-                                        height: (view.frame.size.width/2)-4)
+                                 height: (view.frame.size.width/1.7)-4)
       
          
         collectionView = UICollectionView(frame: .zero,
@@ -94,12 +105,14 @@ final class UpcomingView: UIViewController {
             
         }
     
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(UpcomingViewCollectionCell.self, forCellWithReuseIdentifier: UpcomingViewCollectionCell.identifier)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.frame = view.bounds
         collectionView.backgroundColor = .black
         backgroundViewCollection.addSubview(collectionView)
+        
+        
     }
     
     override func loadView() {
@@ -110,8 +123,11 @@ final class UpcomingView: UIViewController {
         setupConstrains()
         moviesCollection()
         
+        upcomingviewmodel.upcomingDelegate = self
+        
+        
+        
     }
-    
     
     
     func setupView() {
@@ -134,65 +150,68 @@ final class UpcomingView: UIViewController {
         
     }
     
-    
 
-    
-    
     func setupConstrains() {
-        
-        
         
         NSLayoutConstraint.activate([
         
-            UpcomingButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            UpcomingButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
             UpcomingButton.trailingAnchor.constraint(equalTo: view.centerXAnchor),
             UpcomingButton.widthAnchor.constraint(equalToConstant: 110),
                 
-            
-            popularButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            popularButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
             popularButton.leadingAnchor.constraint(equalTo: UpcomingButton.trailingAnchor, constant: -10),
             popularButton.widthAnchor.constraint(equalToConstant: 110),
-        
         
             removeCenterBorder.topAnchor.constraint(equalTo: popularButton.topAnchor, constant: 1),
             removeCenterBorder.bottomAnchor.constraint(equalTo: popularButton.bottomAnchor, constant: -1),
             removeCenterBorder.leadingAnchor.constraint(equalTo: popularButton.leadingAnchor),
             removeCenterBorder.widthAnchor.constraint(equalToConstant: 3),
             
-            
-            upcomingMoviesLabel.topAnchor.constraint(equalTo: popularButton.bottomAnchor, constant: 20),
+            upcomingMoviesLabel.topAnchor.constraint(equalTo: popularButton.bottomAnchor, constant: 10),
             upcomingMoviesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             
-            
 
-            
             backgroundViewCollection.topAnchor.constraint(equalTo: upcomingMoviesLabel.bottomAnchor, constant: 20),
-            backgroundViewCollection.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            backgroundViewCollection.widthAnchor.constraint(equalTo: view.widthAnchor),
-            backgroundViewCollection.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        
-        
+            backgroundViewCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            backgroundViewCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            backgroundViewCollection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            
+          
            
         ])
 
     }
-            
+           
+    
     }
 
 
 extension UpcomingView: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        100
+        return dataList.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
         
-        cell.contentView.backgroundColor = .lightGray
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "upcomingCollectionCell", for: indexPath)
+        as! UpcomingViewCollectionCell
         
+        cell.showResult(data: dataList[indexPath.row])
         return cell
     }
+}
+
+extension UpcomingView: UpcomingProtocol {
+    func getMovieData(data: [Result]) {
+        self.dataList = data
+        DispatchQueue.main.async {
+            self.collectionView?.reloadData()
+        }
+    
+    }
+    
 }
 
 
