@@ -1,17 +1,18 @@
 //
-//  UpcomingViewCollectionCell.swift
+//  PopularViewCollectionCell.swift
 //  TesteFourMovies
 //
-//  Created by user220831 on 9/28/22.
+//  Created by user220831 on 9/29/22.
 //
+
 
 import Foundation
 import UIKit
 
 
-class UpcomingViewCollectionCell: UICollectionViewCell {
+class PopularCollectionCell: UICollectionViewCell {
     
-    static let identifier = "upcomingCollectionCell"
+    static let identifier = "popularCollectionCell"
     
     
      lazy var imageMovie: UIImageView = {
@@ -57,40 +58,36 @@ class UpcomingViewCollectionCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-   public func showResult(data: Result) {
+    public func showResult(data: Result) {
         
         titleMovie.text = data.title
         dataMovie.text = data.releaseDate
+        guard let poster = data.posterPath else {
+            
+            return
+        }
         
-       guard let poster = data.posterPath else {
-           print("não foi possível desembrulhar o posterPath")
-           return
-       }
-       
-       
-       guard let url = URL(string: "https://image.tmdb.org/t/p/w342"+poster) else {
-           print("não foi possível desembrulhar a url")
-               return
+        guard let url = URL(string: "https://image.tmdb.org/t/p/w342"+poster) else {
 
-           }
-       
-       
-       
-       URLSession.shared.dataTask(with: URLRequest(url: url))  {
-           (data,req,error) in
-           do {
-               var datas = try data
-               DispatchQueue.main.async {
-                   self.imageMovie.image = UIImage(data: datas!)
+                return
+
+            }
+        
+        URLSession.shared.dataTask(with: URLRequest(url: url)) {
+                   (data,req,error) in
+                   do {
+                       var datas = try data
+        
+                       DispatchQueue.main.async {
+                           self.imageMovie.image = UIImage(data: datas!)
+                       }
+                       } catch {
+        
+                       }
+               }.resume()
+        
                }
-               } catch {
-                   
-               }
-           
-       }.resume()
-           
-                                  }
-    
+        
     
     
     private func setupConstrains() {

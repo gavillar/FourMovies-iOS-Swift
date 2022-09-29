@@ -25,7 +25,7 @@ class UpcomingViewModel {
             do {
                 let result = try JSONDecoder().decode(MovieResult.self, from: data!)
                 
-                    self.upcomingDelegate?.getMovieData(data: result.results)
+                self.upcomingDelegate?.getMovieData(data: result.results ?? [])
         
             } catch {
                 print(error)
