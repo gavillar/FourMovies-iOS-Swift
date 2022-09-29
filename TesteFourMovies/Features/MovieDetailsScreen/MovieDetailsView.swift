@@ -16,7 +16,6 @@ class MovieDetailsView: UIViewController{
     private lazy var bannerView: UIImageView = {
         let image = UIImage(named: "")
         let banner = UIImageView(image: image)
-        banner.frame = CGRect(x: 0, y: 0, width: 199, height: 50)
         banner.translatesAutoresizingMaskIntoConstraints = false
         banner.contentMode = .scaleAspectFill
         banner.backgroundColor = .blue
@@ -157,6 +156,7 @@ class MovieDetailsView: UIViewController{
             viewInScroll.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             viewInScroll.topAnchor.constraint(equalTo: scrollView.topAnchor),
             viewInScroll.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+      
         
             bannerView.topAnchor.constraint(equalTo: viewInScroll.topAnchor),
             bannerView.leadingAnchor.constraint(equalTo: viewInScroll.leadingAnchor, constant: CGFloat(0)),
