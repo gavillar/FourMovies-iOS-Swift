@@ -43,7 +43,7 @@ class PopularView: UIViewController {
         button.layer.borderColor = UIColor(cgColor: CGColor(red: 250/255, green: 238/255, blue: 239/255, alpha: 1)).cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 5
-        button.addTarget(self, action: #selector(actionPopularButton), for: .touchUpInside)
+//        button.addTarget(self, action: #selector(actionPopularButton), for: .touchUpInside)
        return button
     }()
     
@@ -64,7 +64,7 @@ class PopularView: UIViewController {
         return view
     }()
     
-    private lazy var movieCollectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
         collectionViewLayout.scrollDirection = .vertical
         collectionViewLayout.minimumLineSpacing = 25
@@ -82,6 +82,8 @@ class PopularView: UIViewController {
         return collectionView
     }()
     
+//    private var collectionView: UICollectionView?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         addSubviews()
@@ -95,11 +97,21 @@ class PopularView: UIViewController {
     // MARK: - Functions
         
     @objc func actionUpComingButton() {
-     
+        
+        let upcomingView = UpcomingView()
+        upcomingView.modalPresentationStyle = .fullScreen
+        present(upcomingView, animated: true)
     }
     
     @objc func actionPopularButton() {
       
+    }
+    
+    @objc func actionMovieDetails() {
+        
+        let movieDetailsView = MovieDetailsView()
+        movieDetailsView.modalPresentationStyle = .fullScreen
+        present(movieDetailsView, animated: true)
     }
     
     func addSubviews() {
@@ -107,28 +119,29 @@ class PopularView: UIViewController {
         view.addSubview(popularButton)
         view.addSubview(popularMoviesLabel)
         view.addSubview(removeCenterBorder)
-        view.addSubview(movieCollectionView)
+        view.addSubview(collectionView)
 //        view.addSubview(backgroundCollectionView)
     }
     
-    func moviesCollection() {
-        let collectionLayout = UICollectionViewFlowLayout()
-        collectionLayout.scrollDirection = .vertical
-        collectionLayout.minimumLineSpacing = 50
-        collectionLayout.minimumInteritemSpacing = 5
-        collectionLayout.itemSize = CGSize(width: (view.frame.size.width/3)-4,
-                                              height: (view.frame.size.width/2)-4)
-                 
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.frame = view.bounds
-        collectionView.backgroundColor = UIColor(red: 51.00/255.00, green: 51.00/255.00, blue: 51.00/255.00, alpha: 1.00)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        backgroundCollectionView.addSubview(collectionView)
-    }
-    
+//    func moviesCollection() {
+//        let collectionLayout = UICollectionViewFlowLayout()
+//        collectionLayout.scrollDirection = .vertical
+//        collectionLayout.minimumLineSpacing = 50
+//        collectionLayout.minimumInteritemSpacing = 5
+//        collectionLayout.itemSize = CGSize(width: (view.frame.size.width/3)-4,
+//                                              height: (view.frame.size.width/2)-4)
+//
+//        collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
+//        guard let collectionView = collectionView else {return}
+//        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+//        collectionView.delegate = self
+//        collectionView.dataSource = self
+//        collectionView.frame = view.bounds
+//        collectionView.backgroundColor = UIColor(red: 51.00/255.00, green: 51.00/255.00, blue: 51.00/255.00, alpha: 1.00)
+//        collectionView.translatesAutoresizingMaskIntoConstraints = false
+//        backgroundCollectionView.addSubview(collectionView)
+//    }
+//
     func setupConstraints() {
         
         NSLayoutConstraint.activate([
@@ -149,10 +162,10 @@ class PopularView: UIViewController {
             popularMoviesLabel.topAnchor.constraint(equalTo: popularButton.bottomAnchor, constant: 20),
             popularMoviesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             
-            movieCollectionView.topAnchor.constraint(equalTo: popularMoviesLabel.bottomAnchor, constant: 20),
-            movieCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            movieCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            movieCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            collectionView.topAnchor.constraint(equalTo: popularMoviesLabel.bottomAnchor, constant: 20),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
 //            backgroundCollectionView.topAnchor.constraint(equalTo: popularMoviesLabel.bottomAnchor, constant: 20),
 //            backgroundCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
