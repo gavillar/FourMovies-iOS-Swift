@@ -9,6 +9,8 @@ import UIKit
 
 class MovieDetailsView: UIViewController{
     
+    
+    
     private var collectionView: UICollectionView?
     
     private lazy var bannerView: UIImageView = {
@@ -74,7 +76,7 @@ class MovieDetailsView: UIViewController{
             return
         }
         
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(MovieDetailsViewCollectionCell.self, forCellWithReuseIdentifier: MovieDetailsViewCollectionCell.identifier)
      
         collectionView.backgroundColor = UIColor(red: 0.098, green: 0.106, blue: 0.114, alpha: 1)
         collectionView.showsHorizontalScrollIndicator = false
@@ -120,6 +122,7 @@ class MovieDetailsView: UIViewController{
     
     override func loadView() {
         super.loadView()
+        self.navigationController?.isNavigationBarHidden = true
         self.view.backgroundColor = UIColor(red: 0.098, green: 0.106, blue: 0.114, alpha: 1)
         addSubViews()
         setConstraints()
@@ -195,9 +198,8 @@ extension MovieDetailsView: UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieDetailsViewCollectionCell", for: indexPath)
         
-        cell.contentView.backgroundColor = .lightGray
         
         return cell
     }
