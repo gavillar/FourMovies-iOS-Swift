@@ -192,6 +192,23 @@ final class UpcomingView: UIViewController {
 
 extension UpcomingView: UICollectionViewDelegate, UICollectionViewDataSource {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let moviedetailsview = MovieDetailsView()
+        moviedetailsview.idMovie = dataList[indexPath.row].id
+        
+        
+        present(moviedetailsview, animated: true)
+        
+        DispatchQueue.main.async {
+            moviedetailsview.getImage(data: self.dataList[indexPath.row])
+            moviedetailsview.showResultData(data: self.dataList[indexPath.row])
+            moviedetailsview.showSubtitle(data: self.dataList[indexPath.row])
+            self.collectionView?.reloadData()
+        }
+        
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataList.count
     }
