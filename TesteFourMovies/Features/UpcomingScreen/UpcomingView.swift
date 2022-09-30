@@ -10,6 +10,8 @@ import UIKit
 final class UpcomingView: UIViewController {
     
     
+    
+
     let upcomingviewmodel = UpcomingViewModel()
     
     var dataList = [Result]()
@@ -44,7 +46,7 @@ final class UpcomingView: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Upcoming", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(UIColor(red: 31.0/255.0, green: 31.0/255.0, blue: 31.0/255.0, alpha: 1.00), for: .normal)
         button.backgroundColor = .white
         button.layer.borderColor = UIColor(cgColor: CGColor(red: 250/255, green: 238/255, blue: 239/255, alpha: 1)).cgColor
         button.layer.borderWidth = 1
@@ -60,8 +62,8 @@ final class UpcomingView: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Popular", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .black
-        button.layer.borderColor = UIColor(cgColor: CGColor(red: 250/255, green: 238/255, blue: 239/255, alpha: 1)).cgColor
+        button.backgroundColor = UIColor(red: 31.0/255.0, green: 31.0/255.0, blue: 31.0/255.0, alpha: 1.0)
+        button.layer.borderColor = UIColor(cgColor: CGColor(red: 250/255, green: 238/255, blue: 239/255, alpha: 1.0)).cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 5
         button.addTarget(self, action: #selector(actionPopularButton), for: .touchUpInside)
@@ -84,7 +86,6 @@ final class UpcomingView: UIViewController {
     private lazy var backgroundViewCollection: UIView = {
        let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .darkGray
         return view
     }()
     
@@ -109,7 +110,7 @@ final class UpcomingView: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.frame = view.bounds
-        collectionView.backgroundColor = .black
+        collectionView.backgroundColor = UIColor(red: 51.0/255.0, green: 51.0/255.0, blue: 51.0/255.0, alpha: 1.0)
         backgroundViewCollection.addSubview(collectionView)
         
         
@@ -117,7 +118,7 @@ final class UpcomingView: UIViewController {
     
     override func loadView() {
         super.loadView()
-        self.view.backgroundColor = UIColor.black
+        self.view.backgroundColor = UIColor(red: 31.0/255.0, green: 31.0/255.0, blue: 31.0/255.0, alpha: 1.0)
         
         setupView()
         setupConstrains()
@@ -147,7 +148,9 @@ final class UpcomingView: UIViewController {
     
     @objc func actionPopularButton() {
       
-        
+        let popularView = PopularView()
+        popularView.modalPresentationStyle = .fullScreen
+        present(popularView, animated: false)
     }
     
 
@@ -155,11 +158,11 @@ final class UpcomingView: UIViewController {
         
         NSLayoutConstraint.activate([
         
-            UpcomingButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
-            UpcomingButton.trailingAnchor.constraint(equalTo: view.centerXAnchor),
+            UpcomingButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            UpcomingButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             UpcomingButton.widthAnchor.constraint(equalToConstant: 110),
                 
-            popularButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
+            popularButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             popularButton.leadingAnchor.constraint(equalTo: UpcomingButton.trailingAnchor, constant: -10),
             popularButton.widthAnchor.constraint(equalToConstant: 110),
         
