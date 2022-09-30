@@ -184,7 +184,7 @@ extension PopularView: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let moviedetailsview = MovieDetailsView()
+        let moviedetailsview = MovieDetailsPopularView()
         moviedetailsview.idMovie = dataList[indexPath.row].id
         
         

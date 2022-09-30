@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MovieDetailsView: UIViewController{
+class MovieDetailsPopularView: UIViewController{
     
 
     var idMovie: Int?
@@ -82,7 +82,7 @@ class MovieDetailsView: UIViewController{
             return
         }
         
-        collectionView.register(MovieDetailsViewCollectionCell.self, forCellWithReuseIdentifier: MovieDetailsViewCollectionCell.identifier)
+        collectionView.register(MovieDetailsViewPopularCollectionCell.self, forCellWithReuseIdentifier: MovieDetailsViewPopularCollectionCell.identifier)
      
         collectionView.backgroundColor = UIColor(red: 0.098, green: 0.106, blue: 0.114, alpha: 1)
         collectionView.showsHorizontalScrollIndicator = false
@@ -286,7 +286,7 @@ class MovieDetailsView: UIViewController{
     }
         
     
-    func showProfileImage(cast: Cast?, cell: MovieDetailsViewCollectionCell) {
+    func showProfileImage(cast: Cast?, cell: MovieDetailsViewPopularCollectionCell) {
         
         guard let profile = cast?.profilePath else {
             
@@ -383,14 +383,14 @@ class MovieDetailsView: UIViewController{
     
 }
 
-extension MovieDetailsView: UICollectionViewDelegate, UICollectionViewDataSource {
+extension MovieDetailsPopularView: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return castArray?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieDetailsViewCollectionCell", for: indexPath) as! MovieDetailsViewCollectionCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieDetailsViewCollectionCell", for: indexPath) as! MovieDetailsViewPopularCollectionCell
         DispatchQueue.main.async {
             cell.castName.text = self.castArray?[indexPath.row].name
             cell.character.text = self.castArray?[indexPath.row].character
