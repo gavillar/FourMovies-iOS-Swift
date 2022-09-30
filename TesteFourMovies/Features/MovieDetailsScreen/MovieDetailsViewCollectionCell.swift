@@ -29,7 +29,7 @@ class MovieDetailsViewCollectionCell: UICollectionViewCell {
         label.textColor = .white
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
-        label.font = .systemFont(ofSize: 16)
+        label.font = .systemFont(ofSize: 16, weight: .bold)
        return label
     }()
     
