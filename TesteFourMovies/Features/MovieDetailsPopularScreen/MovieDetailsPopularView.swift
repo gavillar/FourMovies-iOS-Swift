@@ -42,8 +42,6 @@ class MovieDetailsPopularView: UIViewController{
         year.text = "2000"
         year.textColor = .lightGray
         year.font = UIFont(name: "Arial", size: 16)
-        year.adjustsFontSizeToFitWidth = true
-        year.numberOfLines = 0
         return year
     }()
     
@@ -355,13 +353,14 @@ class MovieDetailsPopularView: UIViewController{
             bannerView.trailingAnchor.constraint(equalTo: viewInScroll.trailingAnchor, constant: CGFloat(0)),
             bannerView.heightAnchor.constraint(equalToConstant: 300),
             
-            titleMovie.topAnchor.constraint(equalTo: bannerView.bottomAnchor, constant: 160),
+            titleMovie.topAnchor.constraint(equalTo: bannerView.bottomAnchor, constant: 155),
             titleMovie.leadingAnchor.constraint(equalTo: viewInScroll.leadingAnchor, constant: 15),
-//            titleMovie.trailingAnchor.constraint(equalTo: yearMovie.leadingAnchor, constant: -10),
+            titleMovie.trailingAnchor.constraint(equalTo: yearMovie.leadingAnchor, constant: -10),
             
-            yearMovie.topAnchor.constraint(equalTo: bannerView.bottomAnchor, constant: 162),
+            yearMovie.topAnchor.constraint(equalTo: bannerView.bottomAnchor, constant: 157),
             yearMovie.leadingAnchor.constraint(equalTo: titleMovie.trailingAnchor, constant: 10),
             yearMovie.trailingAnchor.constraint(equalTo: viewInScroll.trailingAnchor, constant: -15),
+            yearMovie.widthAnchor.constraint(equalToConstant: 90),
             
             characteristicsMovie.topAnchor.constraint(equalTo: titleMovie.bottomAnchor, constant: 15),
             characteristicsMovie.leadingAnchor.constraint(equalTo: viewInScroll.leadingAnchor, constant: 15),
