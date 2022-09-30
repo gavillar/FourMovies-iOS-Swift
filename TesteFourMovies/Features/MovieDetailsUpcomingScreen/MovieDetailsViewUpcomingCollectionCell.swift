@@ -1,14 +1,14 @@
 //
-//  MovieDetailsViewCollectionCell.swift
+//  MovieDetailsViewPopopularCollectionCell.swift
 //  TesteFourMovies
 //
-//  Created by user218997 on 28/09/22.
+//  Created by user220831 on 9/30/22.
 //
 
 import Foundation
 import UIKit
 
-class MovieDetailsViewCollectionCell: UICollectionViewCell {
+class MovieDetailsViewUpcomingCollectionCell: UICollectionViewCell {
     
     static let identifier = "movieDetailsViewCollectionCell"
     
@@ -29,7 +29,7 @@ class MovieDetailsViewCollectionCell: UICollectionViewCell {
         label.textColor = .white
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
-        label.font = .systemFont(ofSize: 16)
+        label.font = .systemFont(ofSize: 16, weight: .bold)
        return label
     }()
     

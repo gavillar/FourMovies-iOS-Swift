@@ -9,11 +9,8 @@ import UIKit
 
 final class UpcomingView: UIViewController {
     
-    
-    
 
     let upcomingviewmodel = UpcomingViewModel()
-    
     var dataList = [Result]()
     
     override var prefersStatusBarHidden: Bool {
@@ -126,8 +123,6 @@ final class UpcomingView: UIViewController {
         
         upcomingviewmodel.upcomingDelegate = self
         
-        
-        
     }
     
     
@@ -181,16 +176,29 @@ final class UpcomingView: UIViewController {
             backgroundViewCollection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
             
           
-           
         ])
-
     }
-           
-    
     }
 
 
 extension UpcomingView: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let moviedetailsupomingview = MovieDetailsUpcomingView()
+        moviedetailsupomingview.idMovie = dataList[indexPath.row].id
+        
+        
+        present(moviedetailsupomingview, animated: true)
+        
+        DispatchQueue.main.async {
+            moviedetailsupomingview.getImage(data: self.dataList[indexPath.row])
+            moviedetailsupomingview.showResultData(data: self.dataList[indexPath.row])
+            moviedetailsupomingview.showSubtitle(data: self.dataList[indexPath.row])
+            self.collectionView?.reloadData()
+        }
+        
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataList.count

@@ -7,7 +7,6 @@
 
 import Foundation
 
-import Foundation
 
 // MARK: - MovieDetails
 struct MovieDetails: Codable {
