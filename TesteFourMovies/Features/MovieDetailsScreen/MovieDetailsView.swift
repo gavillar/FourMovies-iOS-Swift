@@ -9,10 +9,13 @@ import UIKit
 
 class MovieDetailsView: UIViewController{
     
-    
+
+    var idMovie: Int?
+    var castArray: [Cast]?
     
     private var collectionView: UICollectionView?
     
+
     private lazy var bannerView: UIImageView = {
         let image = UIImage(named: "")
         let banner = UIImageView(image: image)
@@ -111,7 +114,7 @@ class MovieDetailsView: UIViewController{
     private lazy var synopsisLabel: UILabel = {
         let synopsis = UILabel()
         synopsis.translatesAutoresizingMaskIntoConstraints = false
-        synopsis.text = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        synopsis.text = "synopsis"
         synopsis.textColor = .white
         synopsis.numberOfLines = 0
         synopsis.sizeToFit()
@@ -126,8 +129,193 @@ class MovieDetailsView: UIViewController{
         addSubViews()
         setConstraints()
         castCollection()
+        showCredit()
+        
         
     }
+    
+
+    func getImage(data: Result) {
+    
+        
+        guard let poster = data.posterPath else {
+            
+            return
+        }
+        
+        guard let url = URL(string: "https://image.tmdb.org/t/p/original"+poster) else {
+
+                return
+
+            }
+        
+        URLSession.shared.dataTask(with: URLRequest(url: url)) {
+                   (data,req,error) in
+                   do {
+                       var datas = try data
+        
+                       DispatchQueue.main.async {
+                           self.bannerView.image = UIImage(data: datas!)
+                           
+                       }
+                       } catch {
+        
+                       }
+               }.resume()
+
+    }
+    
+    
+    
+    public func showResultData(data: Result) {
+        
+        titleMovie.text = data.title
+        yearMovie.text = data.releaseDate
+        synopsisLabel.text = data.overview
+        
+        guard let poster = data.posterPath else {
+            
+            return
+        }
+        
+        
+
+    }
+    
+    func showSubtitle(data: Result) {
+        
+        guard let id = data.id else {
+            
+            return
+        }
+        
+       
+        
+        guard let url = URL(string: "https://api.themoviedb.org/3/movie/\(id)?api_key=644c3fb568510b2779c8f2b277ed5f25") else {
+
+                return
+
+            }
+        
+        
+        URLSession.shared.dataTask(with: URLRequest(url: url)) {
+                   (data,req,error) in
+                   do {
+                       var result = try JSONDecoder().decode(MovieDetails.self, from: data!)
+                       print(result)
+                       
+                       guard let runtime = result.runtime else {
+                           return
+                       }
+                       
+                       var genres: [String] = []
+                       
+                       guard let genresFiles = result.genres else {
+                           
+                           return
+                       }
+                       
+                       for genre in genresFiles {
+                           
+                           guard let genreName = genre.name else {
+                               
+                               return
+                           }
+                           
+                           genres.append(genreName)
+                           
+                           
+                       }
+                       
+                       var genreCatergory = "\(runtime)m | "
+                       
+                       for i in 0..<genres.count {
+                           if i < genres.count - 1 {
+                               genreCatergory += "\(genres[i]), "
+                           } else {
+                               genreCatergory += "\(genres[i]) "
+                           }
+                           
+                       }
+                       
+                       DispatchQueue.main.async {
+                           self.characteristicsMovie.text = genreCatergory
+                       }
+                       
+                       } catch {
+        
+                       }
+               }.resume()
+        
+        
+    }
+    
+    func showCredit() {
+        
+        guard let id = idMovie else {
+            
+            return
+        }
+        
+       
+        
+        guard let url = URL(string: "https://api.themoviedb.org/3/movie/\(id)/credits?api_key=644c3fb568510b2779c8f2b277ed5f25") else {
+
+                return
+
+            }
+        
+        URLSession.shared.dataTask(with: URLRequest(url: url)) {
+                   (data,req,error) in
+                   do {
+                       var datas = try JSONDecoder().decode(Credits.self, from: data!)
+                    
+                       
+                       self.castArray = datas.cast
+                       DispatchQueue.main.async {
+                           self.collectionView?.reloadData()
+                       }
+                       } catch {
+        
+                       }
+               }.resume()
+    }
+        
+    
+    func showProfileImage(cast: Cast?, cell: MovieDetailsViewCollectionCell) {
+        
+        guard let profile = cast?.profilePath else {
+            
+            return
+        }
+        
+        guard let url = URL(string: "https://image.tmdb.org/t/p/original"+profile) else {
+
+                return
+
+            }
+        
+        URLSession.shared.dataTask(with: URLRequest(url: url)) {
+                   (data,req,error) in
+                   do {
+                       var datas = try data
+        
+                       guard let image = datas else {
+                           return
+                       }
+                       
+                       DispatchQueue.main.async {
+                           cell.castImage.image = UIImage(data: image)
+                           
+                       }
+                       } catch {
+        
+                       }
+               }.resume()
+        
+    }
+
+    
     
     /// This function handles the display of view elements
     private func addSubViews() {
@@ -184,8 +372,7 @@ class MovieDetailsView: UIViewController{
             synopsisLabel.trailingAnchor.constraint(equalTo: viewInScroll.trailingAnchor, constant: -15),
             synopsisLabel.bottomAnchor.constraint(equalTo: viewInScroll.bottomAnchor, constant: -20),
         
-            
-           
+
         ])
     }
     
@@ -194,16 +381,19 @@ class MovieDetailsView: UIViewController{
 extension MovieDetailsView: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        5
+        return castArray?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieDetailsViewCollectionCell", for: indexPath)
-        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieDetailsViewCollectionCell", for: indexPath) as! MovieDetailsViewCollectionCell
+        DispatchQueue.main.async {
+            cell.castName.text = self.castArray?[indexPath.row].name
+            cell.character.text = self.castArray?[indexPath.row].character
+            self.showProfileImage(cast: self.castArray?[indexPath.row], cell: cell)
+        }
+      
         
         return cell
     }
-    
-    
 }
 

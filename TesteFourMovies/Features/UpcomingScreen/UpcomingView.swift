@@ -10,6 +10,8 @@ import UIKit
 final class UpcomingView: UIViewController {
     
     
+    
+
     let upcomingviewmodel = UpcomingViewModel()
     
     var dataList = [Result]()
@@ -148,7 +150,7 @@ final class UpcomingView: UIViewController {
       
         let popularView = PopularView()
         popularView.modalPresentationStyle = .fullScreen
-        present(popularView, animated: true)
+        present(popularView, animated: false)
     }
     
 

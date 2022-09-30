@@ -25,6 +25,8 @@
 		27D2070E28E49EF0005F2AC6 /* UpcomingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D2070D28E49EF0005F2AC6 /* UpcomingModel.swift */; };
 		27D2071028E49F00005F2AC6 /* UpcomingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D2070F28E49F00005F2AC6 /* UpcomingViewModel.swift */; };
 		27D2071228E4A007005F2AC6 /* UpcomingViewCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D2071128E4A007005F2AC6 /* UpcomingViewCollectionCell.swift */; };
+		27D6C45528E7304100ECBF1C /* Credits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D6C45428E7304100ECBF1C /* Credits.swift */; };
+		27F8434328E646B200C10707 /* Details.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F8434228E646B200C10707 /* Details.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +50,8 @@
 		27D2070D28E49EF0005F2AC6 /* UpcomingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingModel.swift; sourceTree = "<group>"; };
 		27D2070F28E49F00005F2AC6 /* UpcomingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingViewModel.swift; sourceTree = "<group>"; };
 		27D2071128E4A007005F2AC6 /* UpcomingViewCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingViewCollectionCell.swift; sourceTree = "<group>"; };
+		27D6C45428E7304100ECBF1C /* Credits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credits.swift; sourceTree = "<group>"; };
+		27F8434228E646B200C10707 /* Details.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Details.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +159,8 @@
 				2706255128E5F17500F1C1C4 /* NetWorking.swift */,
 				2706254F28E5F15F00F1C1C4 /* Movies.swift */,
 				2706255928E5FEAC00F1C1C4 /* MoviesPopular.swift */,
+				27F8434228E646B200C10707 /* Details.swift */,
+				27D6C45428E7304100ECBF1C /* Credits.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -242,8 +248,10 @@
 				095B430028E35EE10070A123 /* AppDelegate.swift in Sources */,
 				095B431A28E37A940070A123 /* MovieDetailsView.swift in Sources */,
 				27D2071228E4A007005F2AC6 /* UpcomingViewCollectionCell.swift in Sources */,
+				27F8434328E646B200C10707 /* Details.swift in Sources */,
 				27D2070E28E49EF0005F2AC6 /* UpcomingModel.swift in Sources */,
 				095B430228E35EE10070A123 /* SceneDelegate.swift in Sources */,
+				27D6C45528E7304100ECBF1C /* Credits.swift in Sources */,
 				2706255228E5F17500F1C1C4 /* NetWorking.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

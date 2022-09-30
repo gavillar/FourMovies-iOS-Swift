@@ -64,7 +64,6 @@ final class PopularView: UIViewController {
         button.layer.borderColor = UIColor(cgColor: CGColor(red: 250/255, green: 238/255, blue: 239/255, alpha: 1)).cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 5
-//        button.addTarget(nil, action: #selector(actionPopularButton), for: .touchUpInside)
         return button
     }()
     
@@ -178,11 +177,30 @@ final class PopularView: UIViewController {
         
     }
     
-    
 }
 
 
 extension PopularView: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let moviedetailsview = MovieDetailsView()
+        moviedetailsview.idMovie = dataList[indexPath.row].id
+        
+        
+        present(moviedetailsview, animated: true)
+        
+        DispatchQueue.main.async {
+            moviedetailsview.getImage(data: self.dataList[indexPath.row])
+            moviedetailsview.showResultData(data: self.dataList[indexPath.row])
+            moviedetailsview.showSubtitle(data: self.dataList[indexPath.row])
+            self.collectionView?.reloadData()
+        }
+        
+        
+        
+    }
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataList.count

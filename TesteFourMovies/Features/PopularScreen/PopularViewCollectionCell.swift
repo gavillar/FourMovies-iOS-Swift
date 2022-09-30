@@ -14,6 +14,7 @@ class PopularCollectionCell: UICollectionViewCell {
     
     static let identifier = "popularCollectionCell"
     
+        
     
      lazy var imageMovie: UIImageView = {
         let image = UIImageView()
@@ -62,6 +63,7 @@ class PopularCollectionCell: UICollectionViewCell {
         
         titleMovie.text = data.title
         dataMovie.text = data.releaseDate
+        
         guard let poster = data.posterPath else {
             
             return

@@ -12,6 +12,7 @@ class MovieDetailsViewCollectionCell: UICollectionViewCell {
     
     static let identifier = "movieDetailsViewCollectionCell"
     
+    var dataList = [Result]()
     
      lazy var castImage: UIImageView = {
         let image = UIImageView()
@@ -29,7 +30,6 @@ class MovieDetailsViewCollectionCell: UICollectionViewCell {
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
         label.font = .systemFont(ofSize: 16)
-        label.backgroundColor = .red
        return label
     }()
     
@@ -39,7 +39,6 @@ class MovieDetailsViewCollectionCell: UICollectionViewCell {
          label.text = "aaaaaaaaa"
          label.numberOfLines = 0
          label.font = .systemFont(ofSize: 14)
-         label.backgroundColor = .red
          label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -60,26 +59,10 @@ class MovieDetailsViewCollectionCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-//   public func showResult(data: Result) {
-//
-//        titleMovie.text = data.title
-//        dataMovie.text = data.releaseDate
-//
-//       URLSession.shared.dataTask(with: URLRequest(url: URL(string: "https://image.tmdb.org/t/p/w342/\(data.posterPath)")!)) {
-//           (data,req,error) in
-//           do {
-//               var datas = try data
-//               DispatchQueue.main.async {
-//                   self.imageMovie.image = UIImage(data: datas!)
-//               }
-//               } catch {
-//
-//               }
-//       }.resume()
-//
-//       }
     
     
+    
+
     
     private func setupConstrains() {
         
