@@ -9,18 +9,18 @@ import UIKit
 
 final class UpcomingView: UIViewController {
     
-
-    let upcomingviewmodel = UpcomingViewModel()
-    var dataList = [Result]()
     
+    //MARK: - var and let
+    let upcomingviewmodel = UpcomingViewModel()
+    private var collectionView: UICollectionView?
+  
+    //MARK: - prefersStatusBarHidden
     override var prefersStatusBarHidden: Bool {
         false
     }
     
-    
-    private var collectionView: UICollectionView?
-    
-    
+
+    //MARK: - scrollView
     private lazy var scrollView: UIScrollView = {
        let scroll = UIScrollView()
         scroll.translatesAutoresizingMaskIntoConstraints = false
@@ -30,6 +30,7 @@ final class UpcomingView: UIViewController {
     }()
     
 
+    //MARK: - removeCenterBorder
     private let removeCenterBorder: UIView = {
        let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -38,8 +39,8 @@ final class UpcomingView: UIViewController {
         return view
     }()
     
+    //MARK: - UpcomingButton
     private lazy var UpcomingButton: UIButton = {
-        
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Upcoming", for: .normal)
@@ -52,9 +53,8 @@ final class UpcomingView: UIViewController {
        return button
     }()
     
-    
+    //MARK: - popularButton
     private lazy var popularButton: UIButton = {
-        
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Popular", for: .normal)
@@ -68,7 +68,7 @@ final class UpcomingView: UIViewController {
     }()
     
     
-    
+    //MARK: - upcomingMoviesLabel
     private lazy var upcomingMoviesLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -79,13 +79,14 @@ final class UpcomingView: UIViewController {
         return label
     }()
     
-    
+    //MARK: - backgroundViewCollection
     private lazy var backgroundViewCollection: UIView = {
        let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
+    //MARK: - moviesCollection
     private func moviesCollection() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -113,6 +114,7 @@ final class UpcomingView: UIViewController {
         
     }
     
+    //MARK: - loadView
     override func loadView() {
         super.loadView()
         self.view.backgroundColor = UIColor(red: 31.0/255.0, green: 31.0/255.0, blue: 31.0/255.0, alpha: 1.0)
@@ -126,7 +128,8 @@ final class UpcomingView: UIViewController {
     }
     
     
-    func setupView() {
+    //MARK: - setupView
+    private func setupView() {
         
         view.addSubview(UpcomingButton)
         view.addSubview(popularButton)
@@ -136,20 +139,22 @@ final class UpcomingView: UIViewController {
         
     }
     
-    @objc func actionUpComingButton() {
+    //MARK: - actionUpComingButton
+    @objc private func actionUpComingButton() {
      
         
     }
     
-    @objc func actionPopularButton() {
+    //MARK: - actionPopularButton
+    @objc private func actionPopularButton() {
       
         let popularView = PopularView()
         popularView.modalPresentationStyle = .fullScreen
         present(popularView, animated: false)
     }
     
-
-    func setupConstrains() {
+    //MARK: - setupConstrains
+    private func setupConstrains() {
         
         NSLayoutConstraint.activate([
         
@@ -175,7 +180,6 @@ final class UpcomingView: UIViewController {
             backgroundViewCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             backgroundViewCollection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
             
-          
         ])
     }
     }
@@ -185,38 +189,34 @@ extension UpcomingView: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let moviedetailsupomingview = MovieDetailsUpcomingView()
-        moviedetailsupomingview.idMovie = dataList[indexPath.row].id
-        
-        
-        present(moviedetailsupomingview, animated: true)
-        
         DispatchQueue.main.async {
-            moviedetailsupomingview.getImage(data: self.dataList[indexPath.row])
-            moviedetailsupomingview.showResultData(data: self.dataList[indexPath.row])
-            moviedetailsupomingview.showSubtitle(data: self.dataList[indexPath.row])
+            let moviedetailsupomingview = MovieDetailsUpcomingView()
+            moviedetailsupomingview.getImage(data: self.upcomingviewmodel.dataList[indexPath.row])
+            moviedetailsupomingview.showResultData(data: self.upcomingviewmodel.dataList[indexPath.row])
+            moviedetailsupomingview.showSubtitle(data: self.upcomingviewmodel.dataList[indexPath.row])
+            moviedetailsupomingview.idMovie = self.upcomingviewmodel.dataList[indexPath.row].id
             self.collectionView?.reloadData()
+            self.present(moviedetailsupomingview, animated: true)
         }
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataList.count
+        return upcomingviewmodel.dataList.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "upcomingCollectionCell", for: indexPath)
-        as! UpcomingViewCollectionCell
-        
-        cell.showResult(data: dataList[indexPath.row])
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "upcomingCollectionCell",
+                                                      for: indexPath) as! UpcomingViewCollectionCell
+
+        cell.showResult(data: upcomingviewmodel.dataList[indexPath.row])
         return cell
     }
 }
 
 extension UpcomingView: UpcomingProtocol {
     func getMovieData(data: [Result]) {
-        self.dataList = data
+        self.upcomingviewmodel.dataList = data
         DispatchQueue.main.async {
             self.collectionView?.reloadData()
         }

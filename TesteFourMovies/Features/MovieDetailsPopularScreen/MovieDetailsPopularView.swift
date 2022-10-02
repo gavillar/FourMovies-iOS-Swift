@@ -9,13 +9,13 @@ import UIKit
 
 class MovieDetailsPopularView: UIViewController{
     
-
+    
     var idMovie: Int?
     var castArray: [Cast]?
     
     private var collectionView: UICollectionView?
     
-
+    
     private lazy var bannerView: UIImageView = {
         let image = UIImage(named: "")
         let banner = UIImageView(image: image)
@@ -67,7 +67,7 @@ class MovieDetailsPopularView: UIViewController{
         
         return scroll
     }()
-
+    
     private func castCollection() {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 150, height: 200)
@@ -81,7 +81,7 @@ class MovieDetailsPopularView: UIViewController{
         }
         
         collectionView.register(MovieDetailsViewPopularCollectionCell.self, forCellWithReuseIdentifier: MovieDetailsViewPopularCollectionCell.identifier)
-     
+        
         collectionView.backgroundColor = UIColor(red: 0.098, green: 0.106, blue: 0.114, alpha: 1)
         collectionView.showsHorizontalScrollIndicator = false
         
@@ -132,42 +132,38 @@ class MovieDetailsPopularView: UIViewController{
         setConstraints()
         castCollection()
         showCredit()
-        
-        
     }
     
-
-    func getImage(data: Result) {
     
+    func getImage(data: Result) {
         
+    
         guard let poster = data.posterPath else {
             
             return
         }
         
+        
         guard let url = URL(string: "https://image.tmdb.org/t/p/original"+poster) else {
-
-                return
-
-            }
+            
+            return
+            
+        }
         
         URLSession.shared.dataTask(with: URLRequest(url: url)) {
-                   (data,req,error) in
-                   do {
-                       var datas = try data
+            (data,req,error) in
+            do {
+                var datas = try data
+                
+                DispatchQueue.main.async {
+                    self.bannerView.image = UIImage(data: datas!)
+                    
+                }
+            } catch {
+            }
+        }.resume()
         
-                       DispatchQueue.main.async {
-                           self.bannerView.image = UIImage(data: datas!)
-                           
-                       }
-                       } catch {
-        
-                       }
-               }.resume()
-
     }
-    
-    
     
     public func showResultData(data: Result) {
         
@@ -179,9 +175,6 @@ class MovieDetailsPopularView: UIViewController{
             
             return
         }
-        
-        
-
     }
     
     func showSubtitle(data: Result) {
@@ -191,63 +184,63 @@ class MovieDetailsPopularView: UIViewController{
             return
         }
         
-       
+        
         
         guard let url = URL(string: "https://api.themoviedb.org/3/movie/\(id)?api_key=644c3fb568510b2779c8f2b277ed5f25") else {
-
-                return
-
-            }
+            
+            return
+            
+        }
         
         
         URLSession.shared.dataTask(with: URLRequest(url: url)) {
-                   (data,req,error) in
-                   do {
-                       var result = try JSONDecoder().decode(MovieDetails.self, from: data!)
-                       print(result)
-                       
-                       guard let runtime = result.runtime else {
-                           return
-                       }
-                       
-                       var genres: [String] = []
-                       
-                       guard let genresFiles = result.genres else {
-                           
-                           return
-                       }
-                       
-                       for genre in genresFiles {
-                           
-                           guard let genreName = genre.name else {
-                               
-                               return
-                           }
-                           
-                           genres.append(genreName)
-                           
-                           
-                       }
-                       
-                       var genreCatergory = "\(runtime)m | "
-                       
-                       for i in 0..<genres.count {
-                           if i < genres.count - 1 {
-                               genreCatergory += "\(genres[i]), "
-                           } else {
-                               genreCatergory += "\(genres[i]) "
-                           }
-                           
-                       }
-                       
-                       DispatchQueue.main.async {
-                           self.characteristicsMovie.text = genreCatergory
-                       }
-                       
-                       } catch {
-        
-                       }
-               }.resume()
+            (data,req,error) in
+            do {
+                var result = try JSONDecoder().decode(MovieDetails.self, from: data!)
+                print(result)
+                
+                guard let runtime = result.runtime else {
+                    return
+                }
+                
+                var genres: [String] = []
+                
+                guard let genresFiles = result.genres else {
+                    
+                    return
+                }
+                
+                for genre in genresFiles {
+                    
+                    guard let genreName = genre.name else {
+                        
+                        return
+                    }
+                    
+                    genres.append(genreName)
+                    
+                    
+                }
+                
+                var genreCatergory = "\(runtime)m | "
+                
+                for i in 0..<genres.count {
+                    if i < genres.count - 1 {
+                        genreCatergory += "\(genres[i]), "
+                    } else {
+                        genreCatergory += "\(genres[i]) "
+                    }
+                    
+                }
+                
+                DispatchQueue.main.async {
+                    self.characteristicsMovie.text = genreCatergory
+                }
+                
+            } catch {
+                
+            }
+        }.resume()
         
         
     }
@@ -259,30 +252,30 @@ class MovieDetailsPopularView: UIViewController{
             return
         }
         
-       
+        
         
         guard let url = URL(string: "https://api.themoviedb.org/3/movie/\(id)/credits?api_key=644c3fb568510b2779c8f2b277ed5f25") else {
-
-                return
-
-            }
+            
+            return
+            
+        }
         
         URLSession.shared.dataTask(with: URLRequest(url: url)) {
-                   (data,req,error) in
-                   do {
-                       var datas = try JSONDecoder().decode(Credits.self, from: data!)
-                    
-                       
-                       self.castArray = datas.cast
-                       DispatchQueue.main.async {
-                           self.collectionView?.reloadData()
-                       }
-                       } catch {
-        
-                       }
-               }.resume()
+            (data,req,error) in
+            do {
+                var datas = try JSONDecoder().decode(Credits.self, from: data!)
+                
+                
+                self.castArray = datas.cast
+                DispatchQueue.main.async {
+                    self.collectionView?.reloadData()
+                }
+            } catch {
+                
+            }
+        }.resume()
     }
-        
+    
     
     func showProfileImage(cast: Cast?, cell: MovieDetailsViewPopularCollectionCell) {
         
@@ -292,31 +285,31 @@ class MovieDetailsPopularView: UIViewController{
         }
         
         guard let url = URL(string: "https://image.tmdb.org/t/p/original"+profile) else {
-
-                return
-
-            }
+            
+            return
+            
+        }
         
         URLSession.shared.dataTask(with: URLRequest(url: url)) {
-                   (data,req,error) in
-                   do {
-                       var datas = try data
-        
-                       guard let image = datas else {
-                           return
-                       }
-                       
-                       DispatchQueue.main.async {
-                           cell.castImage.image = UIImage(data: image)
-                           
-                       }
-                       } catch {
-        
-                       }
-               }.resume()
+            (data,req,error) in
+            do {
+                var datas = try data
+                
+                guard let image = datas else {
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    cell.castImage.image = UIImage(data: image)
+                    
+                }
+            } catch {
+                
+            }
+        }.resume()
         
     }
-
+    
     
     
     /// This function handles the display of view elements
@@ -341,13 +334,13 @@ class MovieDetailsPopularView: UIViewController{
             scrollView.widthAnchor.constraint(equalTo: view.widthAnchor),
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-
+            
             viewInScroll.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
             viewInScroll.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             viewInScroll.topAnchor.constraint(equalTo: scrollView.topAnchor),
             viewInScroll.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-      
-        
+            
+            
             bannerView.topAnchor.constraint(equalTo: viewInScroll.topAnchor),
             bannerView.leadingAnchor.constraint(equalTo: viewInScroll.leadingAnchor, constant: CGFloat(0)),
             bannerView.trailingAnchor.constraint(equalTo: viewInScroll.trailingAnchor, constant: CGFloat(0)),
@@ -375,8 +368,8 @@ class MovieDetailsPopularView: UIViewController{
             synopsisLabel.leadingAnchor.constraint(equalTo: viewInScroll.leadingAnchor, constant: 15),
             synopsisLabel.trailingAnchor.constraint(equalTo: viewInScroll.trailingAnchor, constant: -15),
             synopsisLabel.bottomAnchor.constraint(equalTo: viewInScroll.bottomAnchor, constant: -20),
-        
-
+            
+            
         ])
     }
     
@@ -395,7 +388,7 @@ extension MovieDetailsPopularView: UICollectionViewDelegate, UICollectionViewDat
             cell.character.text = self.castArray?[indexPath.row].character
             self.showProfileImage(cast: self.castArray?[indexPath.row], cell: cell)
         }
-      
+        
         
         return cell
     }

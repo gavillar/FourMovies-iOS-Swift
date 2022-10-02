@@ -15,10 +15,16 @@ protocol UpcomingProtocol {
 
 class UpcomingViewModel {
     
+    //MARK: - var and let
     var upcomingDelegate: UpcomingProtocol?
+    var dataList = [Result]()
     
+    var count: Int {
+        return self.dataList.count
+    }
 
-    func getMovies() {
+    //MARK: - getMovies
+    private func getMovies() {
     
         URLSession.shared.dataTask(with: URLRequest(url: URL(string: "https://api.themoviedb.org/3/movie/upcoming?api_key=644c3fb568510b2779c8f2b277ed5f25&language=en-US&page=1")!)){
             (data,req,error) in
@@ -35,9 +41,7 @@ class UpcomingViewModel {
         
     }
     
-  
-    
-    
+    //MARK: - init
     init() {
       getMovies()
         
