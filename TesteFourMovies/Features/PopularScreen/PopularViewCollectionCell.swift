@@ -78,12 +78,14 @@ class PopularCollectionCell: UICollectionViewCell {
         URLSession.shared.dataTask(with: URLRequest(url: url)) {
                    (data,req,error) in
                    do {
-                       var datas = try data
+                       var datas = try data 
         
                        DispatchQueue.main.async {
                            self.imageMovie.image = UIImage(data: datas!)
                        }
                        } catch {
+                          
+                           print("Não foi possível completar a requisição de imagens")
         
                        }
                }.resume()
