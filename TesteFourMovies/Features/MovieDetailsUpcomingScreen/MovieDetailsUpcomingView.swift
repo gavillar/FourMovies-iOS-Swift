@@ -176,13 +176,6 @@ class MovieDetailsUpcomingView: UIViewController{
         yearMovie.text = data.releaseDate
         synopsisLabel.text = data.overview
         
-        guard let poster = data.posterPath else {
-            
-            return
-        }
-        
-        
-
     }
     
     func showSubtitle(data: Result) {
