@@ -89,7 +89,7 @@ class UpcomingViewCollectionCell: UICollectionViewCell {
            
        }.resume()
            
-                                  }
+    }
     
     
     

@@ -20,15 +20,6 @@ final class UpcomingView: UIViewController {
     }
     
 
-    //MARK: - scrollView
-    private lazy var scrollView: UIScrollView = {
-       let scroll = UIScrollView()
-        scroll.translatesAutoresizingMaskIntoConstraints = false
-        scroll.delegate = self
-        scroll.isScrollEnabled = true
-        return scroll
-    }()
-    
 
     //MARK: - removeCenterBorder
     private let removeCenterBorder: UIView = {
@@ -79,13 +70,6 @@ final class UpcomingView: UIViewController {
         return label
     }()
     
-    //MARK: - backgroundViewCollection
-    private lazy var backgroundViewCollection: UIView = {
-       let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     //MARK: - moviesCollection
     private func moviesCollection() {
         let layout = UICollectionViewFlowLayout()
@@ -103,14 +87,19 @@ final class UpcomingView: UIViewController {
             return
             
         }
-    
+       
         collectionView.register(UpcomingViewCollectionCell.self, forCellWithReuseIdentifier: UpcomingViewCollectionCell.identifier)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.frame = view.bounds
         collectionView.backgroundColor = UIColor(red: 51.0/255.0, green: 51.0/255.0, blue: 51.0/255.0, alpha: 1.0)
-        backgroundViewCollection.addSubview(collectionView)
-        
+      //  backgroundViewCollection.addSubview(collectionView)
+        view.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.topAnchor.constraint(equalTo: upcomingMoviesLabel.bottomAnchor, constant: 20).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
         
     }
     
@@ -135,8 +124,7 @@ final class UpcomingView: UIViewController {
         view.addSubview(popularButton)
         view.addSubview(removeCenterBorder)
         view.addSubview(upcomingMoviesLabel)
-        view.addSubview(backgroundViewCollection)
-        
+
     }
     
     //MARK: - actionUpComingButton
@@ -175,11 +163,6 @@ final class UpcomingView: UIViewController {
             upcomingMoviesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             
 
-            backgroundViewCollection.topAnchor.constraint(equalTo: upcomingMoviesLabel.bottomAnchor, constant: 20),
-            backgroundViewCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            backgroundViewCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            backgroundViewCollection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-            
         ])
     }
     }
