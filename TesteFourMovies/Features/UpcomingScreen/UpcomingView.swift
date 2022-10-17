@@ -93,7 +93,7 @@ final class UpcomingView: UIViewController {
         collectionView.dataSource = self
         collectionView.frame = view.bounds
         collectionView.backgroundColor = UIColor(red: 51.0/255.0, green: 51.0/255.0, blue: 51.0/255.0, alpha: 1.0)
-      //  backgroundViewCollection.addSubview(collectionView)
+    
         view.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.topAnchor.constraint(equalTo: upcomingMoviesLabel.bottomAnchor, constant: 20).isActive = true
@@ -184,7 +184,7 @@ extension UpcomingView: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return upcomingviewmodel.dataList.count
+        return upcomingviewmodel.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -192,6 +192,7 @@ extension UpcomingView: UICollectionViewDelegate, UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "upcomingCollectionCell",
                                                       for: indexPath) as! UpcomingViewCollectionCell
 
+        
         cell.showResult(data: upcomingviewmodel.dataList[indexPath.row])
         return cell
     }

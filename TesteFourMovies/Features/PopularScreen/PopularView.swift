@@ -9,28 +9,16 @@ import UIKit
 
 final class PopularView: UIViewController {
     
-    
+    //MARK: - popularviewmodel
     let popularviewmodel = PopularViewModel()
-    
-    var dataList = [Result]()
-    
+    private var collectionView: UICollectionView?
+   
+    //MARK: - prefersStatusBarHidden
     override var prefersStatusBarHidden: Bool {
         false
     }
-    
-    
-    private var collectionView: UICollectionView?
-    
-    
-    private lazy var scrollView: UIScrollView = {
-        let scroll = UIScrollView()
-        scroll.translatesAutoresizingMaskIntoConstraints = false
-        scroll.delegate = self
-        scroll.isScrollEnabled = true
-        return scroll
-    }()
-    
-    
+
+    //MARK: - removeCenterBorder
     private let removeCenterBorder: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -39,6 +27,7 @@ final class PopularView: UIViewController {
         return view
     }()
     
+    //MARK: - UpcomingButton
     private lazy var UpcomingButton: UIButton = {
         
         let button = UIButton()
@@ -53,7 +42,7 @@ final class PopularView: UIViewController {
         return button
     }()
     
-    
+    //MARK: - popularButton
     private lazy var popularButton: UIButton = {
         
         let button = UIButton()
@@ -68,8 +57,8 @@ final class PopularView: UIViewController {
     }()
     
     
-    
-    private lazy var upcomingMoviesLabel: UILabel = {
+    //MARK: - popularMoviesLabel
+    private lazy var popularMoviesLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Popular Movies"
@@ -80,6 +69,7 @@ final class PopularView: UIViewController {
     }()
     
     
+    //MARK: - backgroundViewCollection
     private lazy var backgroundViewCollection: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -87,6 +77,7 @@ final class PopularView: UIViewController {
         return view
     }()
     
+    //MARK: - moviesCollection
     private func moviesCollection() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -109,11 +100,18 @@ final class PopularView: UIViewController {
         collectionView.dataSource = self
         collectionView.frame = view.bounds
         collectionView.backgroundColor = UIColor(red: 51.0/255.0, green: 51.0/255.0, blue: 51.0/255.0, alpha: 1)
-        backgroundViewCollection.addSubview(collectionView)
+        view.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.topAnchor.constraint(equalTo: popularMoviesLabel.bottomAnchor, constant: 20).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
         
         
     }
     
+    
+    //MARK: - loadView
     override func loadView() {
         super.loadView()
         self.view.backgroundColor = UIColor(red: 31.0/255.0, green: 31.0/255.0, blue: 31.0/255.0, alpha: 1.00)
@@ -126,25 +124,27 @@ final class PopularView: UIViewController {
         popularviewmodel.getMovies()
     }
     
-    
+    //MARK: - setupView
     func setupView() {
         
         view.addSubview(UpcomingButton)
         view.addSubview(popularButton)
         view.addSubview(removeCenterBorder)
-        view.addSubview(upcomingMoviesLabel)
-        view.addSubview(backgroundViewCollection)
+        view.addSubview(popularMoviesLabel)
+        
         
     }
     
+    //MARK: - actionUpComingButton
     @objc func actionUpComingButton() {
         
         let upcomingView = UpcomingView()
         upcomingView.modalPresentationStyle = .fullScreen
         present(upcomingView, animated: true)
         
-    }    
+    }
     
+    //MARK: - setupConstrains
     func setupConstrains() {
         
         NSLayoutConstraint.activate([
@@ -162,17 +162,10 @@ final class PopularView: UIViewController {
             removeCenterBorder.leadingAnchor.constraint(equalTo: popularButton.leadingAnchor),
             removeCenterBorder.widthAnchor.constraint(equalToConstant: 3),
             
-            upcomingMoviesLabel.topAnchor.constraint(equalTo: popularButton.bottomAnchor, constant: 10),
-            upcomingMoviesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            popularMoviesLabel.topAnchor.constraint(equalTo: popularButton.bottomAnchor, constant: 10),
+            popularMoviesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             
-            
-            backgroundViewCollection.topAnchor.constraint(equalTo: upcomingMoviesLabel.bottomAnchor, constant: 20),
-            backgroundViewCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            backgroundViewCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            backgroundViewCollection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-            
-            
-            
+
         ])
         
     }
@@ -185,25 +178,24 @@ extension PopularView: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let moviedetailsview = MovieDetailsPopularView()
-        moviedetailsview.idMovie = dataList[indexPath.row].id
+        moviedetailsview.idMovie = popularviewmodel.dataList[indexPath.row].id
         
         
         present(moviedetailsview, animated: true)
         
         DispatchQueue.main.async {
-            moviedetailsview.getImage(data: self.dataList[indexPath.row])
-            moviedetailsview.showResultData(data: self.dataList[indexPath.row])
-            moviedetailsview.showSubtitle(data: self.dataList[indexPath.row])
+            moviedetailsview.getImage(data: self.popularviewmodel.dataList[indexPath.row])
+            moviedetailsview.showResultData(data: self.popularviewmodel.dataList[indexPath.row])
+            moviedetailsview.showSubtitle(data: self.popularviewmodel.dataList[indexPath.row])
             self.collectionView?.reloadData()
         }
-        
         
         
     }
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataList.count
+        return self.popularviewmodel.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -211,7 +203,7 @@ extension PopularView: UICollectionViewDelegate, UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "popularCollectionCell", for: indexPath)
         as! PopularCollectionCell
         DispatchQueue.main.async {
-            cell.showResult(data: self.dataList[indexPath.row])
+            cell.showResult(data: self.popularviewmodel.dataList[indexPath.row])
         }
         return cell
     }
@@ -219,7 +211,7 @@ extension PopularView: UICollectionViewDelegate, UICollectionViewDataSource {
 
 extension PopularView: PopularProtocol {
     func getMovieData(data: [Result]) {
-        self.dataList = data
+        self.popularviewmodel.dataList = data
         DispatchQueue.main.async {
             self.collectionView?.reloadData()
         }
