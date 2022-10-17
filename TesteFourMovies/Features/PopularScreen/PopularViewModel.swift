@@ -14,9 +14,15 @@ protocol PopularProtocol {
 
 class PopularViewModel {
     
+    //MARK: - var and let
     var popularDelegate: PopularProtocol?
+    var dataList = [Result]()
     
+    var count: Int {
+        return self.dataList.count
+    }
     
+    //MARK: - getMovies
     func getMovies() {
         
         URLSession.shared.dataTask(with: URLRequest(url: URL(string: "https://api.themoviedb.org/3/movie/popular?api_key=644c3fb568510b2779c8f2b277ed5f25&language=en-US&page=1")!)){
@@ -38,7 +44,7 @@ class PopularViewModel {
     }
     
     
-    
+    //MARK: - init
     init() {
         getMovies()
         
