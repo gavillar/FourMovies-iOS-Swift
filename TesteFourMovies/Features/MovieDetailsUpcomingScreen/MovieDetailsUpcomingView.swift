@@ -280,37 +280,21 @@ class MovieDetailsUpcomingView: UIViewController{
     
     func showProfileImage(cast: Cast?, cell: MovieDetailsViewPopularCollectionCell) {
         
-        guard let profile = cast?.profilePath else {
-            
-            return
-        }
+        guard let profile = cast?.profilePath else {return}
         
-        guard let url = URL(string: "https://image.tmdb.org/t/p/original"+profile) else {
-
-                return
-
-            }
+        guard let url = URL(string: "https://image.tmdb.org/t/p/original"+profile) else {return}
         
         URLSession.shared.dataTask(with: URLRequest(url: url)) {
-                   (data,req,error) in
-                   do {
-                       var datas = try data
-        
-                       guard let image = datas else {
-                           return
-                       }
-                       
-                       DispatchQueue.main.async {
-                           cell.castImage.image = UIImage(data: image)
-                           
-                       }
-                       } catch {
-        
-                       }
-               }.resume()
-        
+            (data,req,error) in
+            var datas = data
+            
+            guard let image = datas else {return}
+            
+            DispatchQueue.main.async {
+                cell.castImage.image = UIImage(data: image)
+            }
+        }
     }
-
     
     
     /// This function handles the display of view elements
@@ -389,8 +373,6 @@ extension MovieDetailsUpcomingView: UICollectionViewDelegate, UICollectionViewDa
             cell.character.text = self.castArray?[indexPath.row].character
             self.showProfileImage(cast: self.castArray?[indexPath.row], cell: cell)
         }
-      
-        
         return cell
     }
 }

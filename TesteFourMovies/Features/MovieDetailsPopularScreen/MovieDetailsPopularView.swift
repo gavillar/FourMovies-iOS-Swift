@@ -137,61 +137,31 @@ class MovieDetailsPopularView: UIViewController{
     
     func getImage(data: Result) {
         
-    
-        guard let poster = data.posterPath else {
-            
-            return
-        }
+        guard let poster = data.posterPath else {return}
         
+        guard let url = URL(string: "https://image.tmdb.org/t/p/original"+poster) else {return}
         
-        guard let url = URL(string: "https://image.tmdb.org/t/p/original"+poster) else {
+        URLSession.shared.dataTask(with: URLRequest(url: url)) { (data,req,error) in
+            let datas = data
+            guard let datas = data else {return}
             
-            return
-            
-        }
-        
-        URLSession.shared.dataTask(with: URLRequest(url: url)) {
-            (data,req,error) in
-            do {
-                var datas = try data
-                
-                DispatchQueue.main.async {
-                    self.bannerView.image = UIImage(data: datas!)
-                    
-                }
-            } catch {
+            DispatchQueue.main.async {
+                self.bannerView.image = UIImage(data: datas)
             }
-        }.resume()
-        
+        }
     }
-    
-    public func showResultData(data: Result) {
+    func showResultData(data: Result) {
         
         titleMovie.text = data.title
         yearMovie.text = data.releaseDate
         synopsisLabel.text = data.overview
         
-        guard let poster = data.posterPath else {
-            
-            return
-        }
+        guard let poster = data.posterPath else {return}
     }
-    
     func showSubtitle(data: Result) {
         
-        guard let id = data.id else {
-            
-            return
-        }
-        
-        
-        
-        guard let url = URL(string: "https://api.themoviedb.org/3/movie/\(id)?api_key=644c3fb568510b2779c8f2b277ed5f25") else {
-            
-            return
-            
-        }
-        
+        guard let id = data.id else {return}
+        guard let url = URL(string: "https://api.themoviedb.org/3/movie/\(id)?api_key=644c3fb568510b2779c8f2b277ed5f25") else {return}
         
         URLSession.shared.dataTask(with: URLRequest(url: url)) {
             (data,req,error) in
@@ -199,27 +169,14 @@ class MovieDetailsPopularView: UIViewController{
                 var result = try JSONDecoder().decode(MovieDetails.self, from: data!)
                 print(result)
                 
-                guard let runtime = result.runtime else {
-                    return
-                }
-                
                 var genres: [String] = []
                 
-                guard let genresFiles = result.genres else {
-                    
-                    return
-                }
+                guard let runtime = result.runtime else {return}
+                guard let genresFiles = result.genres else {return}
                 
                 for genre in genresFiles {
-                    
-                    guard let genreName = genre.name else {
-                        
-                        return
-                    }
-                    
+                    guard let genreName = genre.name else {return}
                     genres.append(genreName)
-                    
-                    
                 }
                 
                 var genreCatergory = "\(runtime)m | "
@@ -279,40 +236,20 @@ class MovieDetailsPopularView: UIViewController{
     
     func showProfileImage(cast: Cast?, cell: MovieDetailsViewPopularCollectionCell) {
         
-        guard let profile = cast?.profilePath else {
-            
-            return
-        }
+        guard let profile = cast?.profilePath else {return}
+        guard let url = URL(string: "https://image.tmdb.org/t/p/original"+profile) else {return}
         
-        guard let url = URL(string: "https://image.tmdb.org/t/p/original"+profile) else {
+        URLSession.shared.dataTask(with: URLRequest(url: url)) { (data,req,error) in
             
-            return
+            var datas = data
+            guard let image = datas else {return}
             
-        }
-        
-        URLSession.shared.dataTask(with: URLRequest(url: url)) {
-            (data,req,error) in
-            do {
-                var datas = try data
-                
-                guard let image = datas else {
-                    return
-                }
-                
-                DispatchQueue.main.async {
-                    cell.castImage.image = UIImage(data: image)
-                    
-                }
-            } catch {
-                
+            DispatchQueue.main.async {
+                cell.castImage.image = UIImage(data: image)
             }
-        }.resume()
-        
+        }
     }
     
-    
-    
-    /// This function handles the display of view elements
     private func addSubViews() {
         view.addSubview(scrollView)
         scrollView.addSubview(viewInScroll)
@@ -324,8 +261,6 @@ class MovieDetailsPopularView: UIViewController{
         viewInScroll.addSubview(synopsisLabel)
         
     }
-    
-    /// This function handles the constraints of view elements
     private func setConstraints() {
         
         NSLayoutConstraint.activate([
@@ -372,25 +307,24 @@ class MovieDetailsPopularView: UIViewController{
             
         ])
     }
-    
 }
-
+        
+        
 extension MovieDetailsPopularView: UICollectionViewDelegate, UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return castArray?.count ?? 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieDetailsViewCollectionCell", for: indexPath) as! MovieDetailsViewPopularCollectionCell
-        DispatchQueue.main.async {
-            cell.castName.text = self.castArray?[indexPath.row].name
-            cell.character.text = self.castArray?[indexPath.row].character
-            self.showProfileImage(cast: self.castArray?[indexPath.row], cell: cell)
+            
+            func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+                return castArray?.count ?? 0
+            }
+            
+            func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieDetailsViewCollectionCell", for: indexPath) as! MovieDetailsViewPopularCollectionCell
+                DispatchQueue.main.async {
+                    cell.castName.text = self.castArray?[indexPath.row].name
+                    cell.character.text = self.castArray?[indexPath.row].character
+                    self.showProfileImage(cast: self.castArray?[indexPath.row], cell: cell)
+                }
+                return cell
+            }
         }
-        
-        
-        return cell
-    }
-}
+
 

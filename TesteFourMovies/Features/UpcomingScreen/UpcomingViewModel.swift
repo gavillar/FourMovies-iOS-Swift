@@ -25,18 +25,17 @@ class UpcomingViewModel {
 
     //MARK: - getMovies
     private func getMovies() {
+        
+        let url = URL(string: "https://api.themoviedb.org/3/movie/upcoming?api_key=644c3fb568510b2779c8f2b277ed5f25&language=en-US&page=1")
     
-        URLSession.shared.dataTask(with: URLRequest(url: URL(string: "https://api.themoviedb.org/3/movie/upcoming?api_key=644c3fb568510b2779c8f2b277ed5f25&language=en-US&page=1")!)){
+        URLSession.shared.dataTask(with: URLRequest(url: url!)){
             (data,req,error) in
             do {
                 let result = try JSONDecoder().decode(MovieResult.self, from: data!)
-                
                 self.upcomingDelegate?.getMovieData(data: result.results ?? [])
-        
             } catch {
                 print(error)
             }
-            
         }.resume()
         
     }
@@ -44,10 +43,5 @@ class UpcomingViewModel {
     //MARK: - init
     init() {
       getMovies()
-        
     }
-    
-    
-    
-    
 }
