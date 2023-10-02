@@ -24,21 +24,19 @@ class PopularProvider: PopularProviderProtocol {
             
             switch response.result {
             case .success(let value):
-                let result: Result<MovieResult, AFError> = .success(value)
                 DataLogger.log(path: permissionPath,
                                 statusCode: statusCode,
                                 headers: response.request?.headers.dictionary ?? [:],
                                 response: response.response,
                                 responseValue: value)
-                completion(result, statusCode)
+                completion(.success(value), statusCode)
             case .failure(let error):
-                let result: Result<MovieResult, AFError> = .failure(error)
                 DataLogger.log(path: permissionPath,
                                 statusCode: statusCode,
                                 headers: response.request?.headers.dictionary ?? [:],
                                 response: response.response,
                                 responseValue: error)
-                completion(result, statusCode)
+                completion(.failure(error), statusCode)
             }
         }
     }

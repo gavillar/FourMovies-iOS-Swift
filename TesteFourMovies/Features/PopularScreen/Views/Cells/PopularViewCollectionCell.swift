@@ -10,12 +10,20 @@ import Foundation
 import UIKit
 
 
-class PopularCollectionCell: UICollectionViewCell {
+class PopularCollectionCell: UICollectionViewCell, ViewModelAssociatedProtocol {
+   
+    typealias ViewModel = PopularItemCellViewModelProtocol
+    
+    var viewModel: PopularItemCellViewModelProtocol? {
+        didSet {
+            guard viewModel == nil else { return inflate() }
+            reset()
+        }
+    }
     
     static let identifier = "popularCollectionCell"
     
-        
-    
+
      lazy var imageMovie: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -45,54 +53,74 @@ class PopularCollectionCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        self.backgroundColor = . green
         contentView.clipsToBounds = true
         contentView.addSubview(titleMovie)
         contentView.addSubview(imageMovie)
         contentView.addSubview(dataMovie)
-        
         setupConstrains()
-        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func showResult(data: ResultMovies) {
-        
-        titleMovie.text = data.title
-        dataMovie.text = data.releaseDate
-        
-        guard let poster = data.posterPath else {
-            
-            return
-        }
-        
-        guard let url = URL(string: "https://image.tmdb.org/t/p/w342"+poster) else {
-
-                return
-
-            }
-        
-        URLSession.shared.dataTask(with: URLRequest(url: url)) {
-                   (data,req,error) in
-                   do {
-                       var datas = try data 
-        
-                       DispatchQueue.main.async {
-                           self.imageMovie.image = UIImage(data: datas!)
-                       }
-                       } catch {
-                          
-                           print("Não foi possível completar a requisição de imagens")
-        
-                       }
-               }.resume()
-        
-               }
-        
     
+    private func reset() {
+        self.titleMovie.text = nil
+        self.dataMovie.text = nil
+        self.imageMovie.image = nil
+    }
+    
+    private func inflate() {
+        viewModel?.movieName.bind({ [weak self] movieName in
+            guard let self = self else { return }
+            self.titleMovie.text = movieName
+            self.layoutIfNeeded()
+        })
+        
+        viewModel?.movieDate.bind({ [weak self] movieDate in
+            guard let self = self else { return }
+            self.dataMovie.text = movieDate
+            self.layoutIfNeeded()
+        })
+        
+    }
+    
+//    public func showResult(data: ResultMovies) {
+//
+//        titleMovie.text = data.title
+//        dataMovie.text = data.releaseDate
+//
+//        guard let poster = data.posterPath else {
+//
+//            return
+//        }
+//
+//        guard let url = URL(string: "https://image.tmdb.org/t/p/w342"+poster) else {
+//
+//                return
+//
+//            }
+//
+//        URLSession.shared.dataTask(with: URLRequest(url: url)) {
+//                   (data,req,error) in
+//                   do {
+//                       var datas = try data
+//
+//                       DispatchQueue.main.async {
+//                           self.imageMovie.image = UIImage(data: datas!)
+//                       }
+//                       } catch {
+//
+//                           print("Não foi possível completar a requisição de imagens")
+//
+//                       }
+//               }.resume()
+//
+//               }
+//
+//
     
     private func setupConstrains() {
         

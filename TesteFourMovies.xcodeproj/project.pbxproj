@@ -41,6 +41,9 @@
 		A013BFFB2ACA11AF0082A1F1 /* PopularProviderFactoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A013BFFA2ACA11AF0082A1F1 /* PopularProviderFactoryProtocol.swift */; };
 		A013BFFE2ACA12C00082A1F1 /* PopularPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A013BFFD2ACA12C00082A1F1 /* PopularPresenterProtocol.swift */; };
 		A013C0002ACA1EE60082A1F1 /* OffboardingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A013BFFF2ACA1EE60082A1F1 /* OffboardingPresenter.swift */; };
+		A013C0042ACA4D430082A1F1 /* PopularItemCellViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A013C0032ACA4D430082A1F1 /* PopularItemCellViewModelProtocol.swift */; };
+		A013C0062ACA4DA60082A1F1 /* ModelState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A013C0052ACA4DA60082A1F1 /* ModelState.swift */; };
+		A013C0082ACA51820082A1F1 /* PopularItemCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A013C0072ACA51820082A1F1 /* PopularItemCellViewModel.swift */; };
 		A0E6204C2AC7157C0097BF08 /* PopularViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0E6204B2AC7157C0097BF08 /* PopularViewModelProtocol.swift */; };
 		A0E620512AC715FB0097BF08 /* PopularProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0E620502AC715FB0097BF08 /* PopularProvider.swift */; };
 		A0E620532AC716080097BF08 /* PopularManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0E620522AC716080097BF08 /* PopularManager.swift */; };
@@ -88,6 +91,9 @@
 		A013BFFA2ACA11AF0082A1F1 /* PopularProviderFactoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularProviderFactoryProtocol.swift; sourceTree = "<group>"; };
 		A013BFFD2ACA12C00082A1F1 /* PopularPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPresenterProtocol.swift; sourceTree = "<group>"; };
 		A013BFFF2ACA1EE60082A1F1 /* OffboardingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffboardingPresenter.swift; sourceTree = "<group>"; };
+		A013C0032ACA4D430082A1F1 /* PopularItemCellViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularItemCellViewModelProtocol.swift; sourceTree = "<group>"; };
+		A013C0052ACA4DA60082A1F1 /* ModelState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelState.swift; sourceTree = "<group>"; };
+		A013C0072ACA51820082A1F1 /* PopularItemCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularItemCellViewModel.swift; sourceTree = "<group>"; };
 		A0E6204B2AC7157C0097BF08 /* PopularViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularViewModelProtocol.swift; sourceTree = "<group>"; };
 		A0E620502AC715FB0097BF08 /* PopularProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularProvider.swift; sourceTree = "<group>"; };
 		A0E620522AC716080097BF08 /* PopularManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularManager.swift; sourceTree = "<group>"; };
@@ -259,6 +265,7 @@
 				A013BFDF2AC9EFD60082A1F1 /* Presenter.swift */,
 				A013BFE12AC9EFE30082A1F1 /* ViewController.swift */,
 				A013BFEB2ACA0CA70082A1F1 /* TabBarController.swift */,
+				A013C0052ACA4DA60082A1F1 /* ModelState.swift */,
 			);
 			path = Bases;
 			sourceTree = "<group>";
@@ -350,9 +357,18 @@
 		A013C0012ACA484B0082A1F1 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				A013C0022ACA4D060082A1F1 /* Protocols */,
 				2706255728E5F66400F1C1C4 /* PopularViewCollectionCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		A013C0022ACA4D060082A1F1 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				A013C0032ACA4D430082A1F1 /* PopularItemCellViewModelProtocol.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		A0E6204A2AC715640097BF08 /* Protocols */ = {
@@ -378,6 +394,7 @@
 			isa = PBXGroup;
 			children = (
 				2706255528E5F63100F1C1C4 /* PopularViewModel.swift */,
+				A013C0072ACA51820082A1F1 /* PopularItemCellViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -532,15 +549,18 @@
 				2706255828E5F66400F1C1C4 /* PopularViewCollectionCell.swift in Sources */,
 				27D6C45F28E7547B00ECBF1C /* MovieDetailsUpcomingView.swift in Sources */,
 				2706255628E5F63100F1C1C4 /* PopularViewModel.swift in Sources */,
+				A013C0042ACA4D430082A1F1 /* PopularItemCellViewModelProtocol.swift in Sources */,
 				27D2071028E49F00005F2AC6 /* UpcomingViewModel.swift in Sources */,
 				A0E6204C2AC7157C0097BF08 /* PopularViewModelProtocol.swift in Sources */,
 				095B432128E37B270070A123 /* Model.swift in Sources */,
 				A013BFEA2ACA0AB20082A1F1 /* PopularPresenter.swift in Sources */,
+				A013C0082ACA51820082A1F1 /* PopularItemCellViewModel.swift in Sources */,
 				27D6C46128E7549D00ECBF1C /* MovieDetailsViewUpcomingCollectionCell.swift in Sources */,
 				A0E620532AC716080097BF08 /* PopularManager.swift in Sources */,
 				A013BFF32ACA0F1A0082A1F1 /* OnboardProviderFactoryProtocol.swift in Sources */,
 				A013BFDE2AC9EF860082A1F1 /* Provider.swift in Sources */,
 				A013BFE72AC9F5020082A1F1 /* DataLogger.swift in Sources */,
+				A013C0062ACA4DA60082A1F1 /* ModelState.swift in Sources */,
 				138CAFA328E4C7A10099CDA4 /* MovieDetailsViewPopularCollectionCell.swift in Sources */,
 				A013BFE02AC9EFD60082A1F1 /* Presenter.swift in Sources */,
 				A013C0002ACA1EE60082A1F1 /* OffboardingPresenter.swift in Sources */,

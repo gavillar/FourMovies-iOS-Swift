@@ -6,8 +6,11 @@
 //
 
 import Foundation
+import Core
 
 protocol PopularViewModelProtocol {
-    var count: Int { get }
+    var popular: Bindable<ModelState<[PopularItemCellViewModelProtocol]>> { get }
+    var cachedData: [MovieResult] { get }
     func fetch()
 }
+

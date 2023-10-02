@@ -13,7 +13,7 @@ import Alamofire
 struct MovieResult: Codable {
     let dates: Dates?
     let page: Int?
-    let results: [ResultMovies]?
+    var results: [ResultMovies]?
     let totalPages, totalResults: Int?
 
     enum CodingKeys: String, CodingKey {

@@ -15,6 +15,7 @@ final class PopularViewController: UIViewController, ViewModelAssociatedProtocol
     
     var viewModel: PopularViewModelProtocol?
     
+    var dataSource: [PopularItemCellViewModelProtocol] = []
     
     //MARK: - constants
     
@@ -125,9 +126,11 @@ final class PopularViewController: UIViewController, ViewModelAssociatedProtocol
         self.view.backgroundColor = .gray
        
         self.tabBarController?.tabBar.isHidden = false
+        bindElements()
         setupView()
         setupConstrains()
         moviesCollection()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -137,7 +140,7 @@ final class PopularViewController: UIViewController, ViewModelAssociatedProtocol
     
     @objc
     private func refresh() {
-   //     viewModel?.fetch()
+        viewModel?.fetch()
     }
     
     
@@ -157,6 +160,26 @@ final class PopularViewController: UIViewController, ViewModelAssociatedProtocol
         upcomingView.modalPresentationStyle = .formSheet
         present(upcomingView, animated: true)
         
+    }
+    
+    
+    private func bindElements() {
+        viewModel?.popular.bind({ [weak self] state in
+            guard let self = self else { return }
+            switch state {
+            case .none:
+                ()
+        
+            case .loading:
+                ()
+            case .finished(let data):
+               
+                self.dataSource = data
+                self.collectionView?.reloadData()
+            case .failed:
+                ()
+            }
+        })
     }
     
     //MARK: - setupConstrains
@@ -189,39 +212,42 @@ final class PopularViewController: UIViewController, ViewModelAssociatedProtocol
 
 
 extension PopularViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+  
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-//        let moviedetailsview = MovieDetailsPopularView()
-//        moviedetailsview.idMovie = popularviewmodel.dataList[indexPath.row].id
-//
-//
-//        present(moviedetailsview, animated: true)
-//
-//        DispatchQueue.main.async {
-//            moviedetailsview.getImage(data: self.popularviewmodel.dataList[indexPath.row])
-//            moviedetailsview.showResultData(data: self.popularviewmodel.dataList[indexPath.row])
-//            moviedetailsview.showSubtitle(data: self.popularviewmodel.dataList[indexPath.row])
-//            self.collectionView?.reloadData()
-//        }
-//
+        //        let moviedetailsview = MovieDetailsPopularView()
+        //        moviedetailsview.idMovie = popularviewmodel.dataList[indexPath.row].id
+        //
+        //
+        //        present(moviedetailsview, animated: true)
+        //
+        //        DispatchQueue.main.async {
+        //            moviedetailsview.getImage(data: self.popularviewmodel.dataList[indexPath.row])
+        //            moviedetailsview.showResultData(data: self.popularviewmodel.dataList[indexPath.row])
+        //            moviedetailsview.showSubtitle(data: self.popularviewmodel.dataList[indexPath.row])
+        //            self.collectionView?.reloadData()
+        //        }
+        //
         
     }
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.viewModel?.count ?? .zero
+        dataSource.count
+        
+    }
+        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+            
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "popularCollectionCell", for: indexPath)
+            as! PopularCollectionCell
+            
+            let model = dataSource[indexPath.row]
+            print("Movie Title: \(model.movieName.value)")
+            cell.viewModel = model
+            return cell
+        }
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "popularCollectionCell", for: indexPath)
-        as! PopularCollectionCell
-//        DispatchQueue.main.async {
-//            guard let viewModel = self.viewModel else { return }
-//            cell.showResult(data: viewModel.dataList[indexPath.row])
-//        }
-        return cell
-    }
-}
+    
 

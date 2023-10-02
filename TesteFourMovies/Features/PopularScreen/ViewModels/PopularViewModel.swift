@@ -6,11 +6,16 @@
 //
 
 import Foundation
+import Core
 
 class PopularViewModel: PopularViewModelProtocol {
     
+    var popular = Bindable<ModelState<[PopularItemCellViewModelProtocol]>>(.none)
+    
     private let manager: PopularManager
     private let presenter: PopularPresenter
+    
+    var cachedData: [MovieResult] = []
     
     required init(provider: PopularProviderProtocol,
                   presenter: PopularPresenter) {
@@ -20,18 +25,27 @@ class PopularViewModel: PopularViewModelProtocol {
     
     
     func fetch() {
-        manager.getMovies { result, statusCode in
+        manager.getMovies { [weak self] result, statusCode in
+            guard let self = self else { return }
             
-            print("result \(result)")
+            switch result {
+            case .success(let data):
+                self.cachedData = [data]
+                
+                let models = self.cachedData.first?.results?.enumerated().compactMap({ index, movies -> PopularItemCellViewModel in
+                        
+                    return PopularItemCellViewModel(movies: data)
+                        
+                    })
+                
+                self.popular.value = .finished(models ?? [])
+                          
+            case .failure(let error):
+                print("error \(error)")
+                self.popular.value = .failed
+            }
+            
         }
+        
     }
-    
-    //MARK: - constants
-    
-    var dataList = [ResultMovies]()
-    
-    var count: Int {
-        return self.dataList.count
-    }
- 
 }

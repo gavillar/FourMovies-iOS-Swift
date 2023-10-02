@@ -7,9 +7,8 @@
 
 import Foundation
 import Core
-import Alamofire
 
-typealias PopularCompletion = (Result<MovieResult, AFError>, Int) -> Void
+typealias PopularCompletion = (Result<MovieResult, Error>, Int) -> Void
 
 protocol PopularProviderProtocol {
     func getMovies(completion: @escaping PopularCompletion)
