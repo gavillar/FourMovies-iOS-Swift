@@ -57,7 +57,7 @@ class UpcomingViewCollectionCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-   public func showResult(data: Result) {
+   public func showResult(data: ResultMovies) {
         
         titleMovie.text = data.title
         dataMovie.text = data.releaseDate

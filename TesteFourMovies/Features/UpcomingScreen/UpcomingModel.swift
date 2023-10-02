@@ -6,14 +6,14 @@
 //
 
 import Foundation
+import Alamofire
 
-//UPCOMING MODEL
 
 // MARK: - MovieResult
 struct MovieResult: Codable {
     let dates: Dates?
     let page: Int?
-    let results: [Result]?
+    let results: [ResultMovies]?
     let totalPages, totalResults: Int?
 
     enum CodingKeys: String, CodingKey {
@@ -29,7 +29,7 @@ struct Dates: Codable {
 }
 
 // MARK: - Result
-struct Result: Codable {
+struct ResultMovies: Codable {
     let adult: Bool?
     let backdropPath: String?
     let genreIDS: [Int]?

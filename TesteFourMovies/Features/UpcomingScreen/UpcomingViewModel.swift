@@ -8,7 +8,7 @@
 import Foundation
 
 protocol UpcomingProtocol {
-    func getMovieData(data: [Result])
+    func getMovieData(data: [ResultMovies])
     
     
 }
@@ -17,7 +17,7 @@ class UpcomingViewModel {
     
     //MARK: - var and let
     var upcomingDelegate: UpcomingProtocol?
-    var dataList = [Result]()
+    var dataList = [ResultMovies]()
     
     var count: Int {
         return self.dataList.count

@@ -136,7 +136,7 @@ final class UpcomingView: UIViewController {
     //MARK: - actionPopularButton
     @objc private func actionPopularButton() {
       
-        let popularView = PopularView()
+        let popularView = PopularViewController()
         popularView.modalPresentationStyle = .fullScreen
         present(popularView, animated: false)
     }
@@ -199,7 +199,7 @@ extension UpcomingView: UICollectionViewDelegate, UICollectionViewDataSource {
 }
 
 extension UpcomingView: UpcomingProtocol {
-    func getMovieData(data: [Result]) {
+    func getMovieData(data: [ResultMovies]) {
         self.upcomingviewmodel.dataList = data
         DispatchQueue.main.async {
             self.collectionView?.reloadData()

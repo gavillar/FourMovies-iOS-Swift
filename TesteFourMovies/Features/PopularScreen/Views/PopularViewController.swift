@@ -1,5 +1,5 @@
 //
-//  PopularView.swift
+//  PopularViewController.swift
 //  TesteFourMovies
 //
 //  Created by user220210 on 9/27/22.
@@ -7,10 +7,17 @@
 
 import UIKit
 
-final class PopularView: UIViewController {
+final class PopularViewController: UIViewController, ViewModelAssociatedProtocol {
     
-    //MARK: - popularviewmodel
-    let popularviewmodel = PopularViewModel()
+
+    //MARK: - ViewModel
+    typealias ViewModel = PopularViewModelProtocol
+    
+    var viewModel: PopularViewModelProtocol?
+    
+    
+    //MARK: - constants
+    
     private var collectionView: UICollectionView?
    
     //MARK: - prefersStatusBarHidden
@@ -109,20 +116,30 @@ final class PopularView: UIViewController {
         
         
     }
+
+   
     
-    
-    //MARK: - loadView
-    override func loadView() {
-        super.loadView()
-        self.view.backgroundColor = UIColor(red: 31.0/255.0, green: 31.0/255.0, blue: 31.0/255.0, alpha: 1.00)
-        
+    //MARK: - viewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = .gray
+       
+        self.tabBarController?.tabBar.isHidden = false
         setupView()
         setupConstrains()
         moviesCollection()
-        
-        popularviewmodel.popularDelegate = self
-        popularviewmodel.getMovies()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        refresh()
+    }
+    
+    @objc
+    private func refresh() {
+   //     viewModel?.fetch()
+    }
+    
     
     //MARK: - setupView
     func setupView() {
@@ -131,15 +148,13 @@ final class PopularView: UIViewController {
         view.addSubview(popularButton)
         view.addSubview(removeCenterBorder)
         view.addSubview(popularMoviesLabel)
-        
-        
     }
     
     //MARK: - actionUpComingButton
     @objc func actionUpComingButton() {
         
         let upcomingView = UpcomingView()
-        upcomingView.modalPresentationStyle = .fullScreen
+        upcomingView.modalPresentationStyle = .formSheet
         present(upcomingView, animated: true)
         
     }
@@ -173,51 +188,40 @@ final class PopularView: UIViewController {
 }
 
 
-extension PopularView: UICollectionViewDelegate, UICollectionViewDataSource {
+extension PopularViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let moviedetailsview = MovieDetailsPopularView()
-        moviedetailsview.idMovie = popularviewmodel.dataList[indexPath.row].id
-        
-        
-        present(moviedetailsview, animated: true)
-        
-        DispatchQueue.main.async {
-            moviedetailsview.getImage(data: self.popularviewmodel.dataList[indexPath.row])
-            moviedetailsview.showResultData(data: self.popularviewmodel.dataList[indexPath.row])
-            moviedetailsview.showSubtitle(data: self.popularviewmodel.dataList[indexPath.row])
-            self.collectionView?.reloadData()
-        }
-        
+//        let moviedetailsview = MovieDetailsPopularView()
+//        moviedetailsview.idMovie = popularviewmodel.dataList[indexPath.row].id
+//
+//
+//        present(moviedetailsview, animated: true)
+//
+//        DispatchQueue.main.async {
+//            moviedetailsview.getImage(data: self.popularviewmodel.dataList[indexPath.row])
+//            moviedetailsview.showResultData(data: self.popularviewmodel.dataList[indexPath.row])
+//            moviedetailsview.showSubtitle(data: self.popularviewmodel.dataList[indexPath.row])
+//            self.collectionView?.reloadData()
+//        }
+//
         
     }
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.popularviewmodel.count
+        return self.viewModel?.count ?? .zero
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "popularCollectionCell", for: indexPath)
         as! PopularCollectionCell
-        DispatchQueue.main.async {
-            cell.showResult(data: self.popularviewmodel.dataList[indexPath.row])
-        }
+//        DispatchQueue.main.async {
+//            guard let viewModel = self.viewModel else { return }
+//            cell.showResult(data: viewModel.dataList[indexPath.row])
+//        }
         return cell
     }
 }
-
-extension PopularView: PopularProtocol {
-    func getMovieData(data: [Result]) {
-        self.popularviewmodel.dataList = data
-        DispatchQueue.main.async {
-            self.collectionView?.reloadData()
-        }
-    }
-    
-}
-
-
 

@@ -138,7 +138,7 @@ class MovieDetailsUpcomingView: UIViewController{
     }
     
 
-    func getImage(data: Result) {
+    func getImage(data: ResultMovies) {
     
         
         guard let poster = data.posterPath else {
@@ -170,7 +170,7 @@ class MovieDetailsUpcomingView: UIViewController{
     
     
     
-    public func showResultData(data: Result) {
+    public func showResultData(data: ResultMovies) {
         
         titleMovie.text = data.title
         yearMovie.text = data.releaseDate
@@ -178,7 +178,7 @@ class MovieDetailsUpcomingView: UIViewController{
         
     }
     
-    func showSubtitle(data: Result) {
+    func showSubtitle(data: ResultMovies) {
         
         guard let id = data.id else {
             
