@@ -146,7 +146,6 @@ final class PopularViewController: UIViewController, ViewModelAssociatedProtocol
     
     //MARK: - setupView
     func setupView() {
-        
         view.addSubview(UpcomingButton)
         view.addSubview(popularButton)
         view.addSubview(removeCenterBorder)
@@ -243,7 +242,6 @@ extension PopularViewController: UICollectionViewDelegate, UICollectionViewDataS
             as! PopularCollectionCell
             
             let model = dataSource[indexPath.row]
-            print("Movie Title: \(model.movieName.value)")
             cell.viewModel = model
             return cell
         }

@@ -85,42 +85,12 @@ class PopularCollectionCell: UICollectionViewCell, ViewModelAssociatedProtocol {
             self.layoutIfNeeded()
         })
         
+        viewModel?.movieImage.bind({ [weak self] image in
+            guard let self = self else { return }
+            self.imageMovie.image = image
+            self.layoutIfNeeded()
+        })
     }
-    
-//    public func showResult(data: ResultMovies) {
-//
-//        titleMovie.text = data.title
-//        dataMovie.text = data.releaseDate
-//
-//        guard let poster = data.posterPath else {
-//
-//            return
-//        }
-//
-//        guard let url = URL(string: "https://image.tmdb.org/t/p/w342"+poster) else {
-//
-//                return
-//
-//            }
-//
-//        URLSession.shared.dataTask(with: URLRequest(url: url)) {
-//                   (data,req,error) in
-//                   do {
-//                       var datas = try data
-//
-//                       DispatchQueue.main.async {
-//                           self.imageMovie.image = UIImage(data: datas!)
-//                       }
-//                       } catch {
-//
-//                           print("Não foi possível completar a requisição de imagens")
-//
-//                       }
-//               }.resume()
-//
-//               }
-//
-//
     
     private func setupConstrains() {
         

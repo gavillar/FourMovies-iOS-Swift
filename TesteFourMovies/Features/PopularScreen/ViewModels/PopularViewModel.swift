@@ -34,8 +34,7 @@ class PopularViewModel: PopularViewModelProtocol {
                 
                 let models = self.cachedData.first?.results?.enumerated().compactMap({ index, movies -> PopularItemCellViewModel in
                         
-                    return PopularItemCellViewModel(movies: data)
-                        
+                    return PopularItemCellViewModel(movies: movies)
                     })
                 
                 self.popular.value = .finished(models ?? [])
