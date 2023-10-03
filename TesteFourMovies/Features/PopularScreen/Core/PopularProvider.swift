@@ -18,7 +18,7 @@ class PopularProvider: PopularProviderProtocol {
         AF.request(url,
                    method: .get,
                    encoding: JSONEncoding.default,
-                   headers: headers).responseDecodable(of: MovieResult.self) { response in
+                   headers: headers).responseDecodable(of: MovieResultPopular.self) { response in
             
             let statusCode = response.response?.statusCode ?? .zero
             

@@ -9,9 +9,8 @@ import Foundation
 import Core
 
 class PopularOperation: AsyncOperation {
-    
+     
     // MARK: Properties
-    
     private let provider: PopularProviderProtocol
     private let completion: PopularCompletion
     
@@ -20,8 +19,6 @@ class PopularOperation: AsyncOperation {
         self.provider = provider
         self.completion = completion
         super.init()
-        
-        
     }
     
     // MARK: Main

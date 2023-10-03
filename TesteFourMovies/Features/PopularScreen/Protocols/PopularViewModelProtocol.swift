@@ -10,7 +10,7 @@ import Core
 
 protocol PopularViewModelProtocol {
     var popular: Bindable<ModelState<[PopularItemCellViewModelProtocol]>> { get }
-    var cachedData: [MovieResult] { get }
+    var cachedData: [MovieResultPopular] { get }
     func fetch()
 }
 

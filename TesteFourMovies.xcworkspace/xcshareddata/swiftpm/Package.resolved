@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "core",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/persiogv/Core",
+      "state" : {
+        "revision" : "b5137180990e33f41d27d3886456fae0a2699c8d",
+        "version" : "1.0.3"
+      }
+    },
+    {
+      "identity" : "corenetworking",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/persiogv/CoreNetworking",
+      "state" : {
+        "revision" : "a315a85240dede215d73c5c947f4470ef9540e79",
+        "version" : "1.0.2"
+      }
+    }
+  ],
+  "version" : 2
+}

@@ -43,7 +43,8 @@ class OnboardPresenter: Presenter {
         
         setCurrentController(tabBarController)
         
-       presentPopular(tabBarController: tabBarController)
+        presentPopular(tabBarController: tabBarController)
+        presentUpcoming(tabBarController: tabBarController)
         
         return tabBarController
     }
@@ -52,6 +53,12 @@ class OnboardPresenter: Presenter {
         let popularPresenter = PopularPresenter(providerFactory: providersFactory.popularFactory,
                                                 parentPresenter: self)
         popularPresenter.start(tabBarController: tabBarController)
+    }
+    
+    private func presentUpcoming(tabBarController: UITabBarController) {
+        let upcomingPresenter = UpcomingPresenter(providerFactory: providersFactory.upcomingFactory,
+                                                  parentPresenter: self)
+        upcomingPresenter.start(tabBarController: tabBarController)
     }
 }
 

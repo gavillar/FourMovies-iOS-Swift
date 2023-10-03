@@ -8,7 +8,7 @@
 import Foundation
 
 
-class UpcomingViewModel {
+class UpcomingViewModel: UpcomingViewModelProtocol {
     
  
     

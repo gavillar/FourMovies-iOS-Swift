@@ -25,45 +25,6 @@ final class PopularViewController: UIViewController, ViewModelAssociatedProtocol
     override var prefersStatusBarHidden: Bool {
         false
     }
-
-    //MARK: - removeCenterBorder
-    private let removeCenterBorder: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .black
-        view.isHidden = false
-        return view
-    }()
-    
-    //MARK: - UpcomingButton
-    private lazy var UpcomingButton: UIButton = {
-        
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Upcoming", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor(red: 31.0/255.0, green: 31.0/255.0, blue: 31.0/255.0, alpha: 1.00)
-        button.layer.borderColor = UIColor(cgColor: CGColor(red: 250/255, green: 238/255, blue: 239/255, alpha: 1)).cgColor
-        button.layer.borderWidth = 1
-        button.layer.cornerRadius = 5
-        button.addTarget(nil, action: #selector(actionUpComingButton), for: .touchUpInside)
-        return button
-    }()
-    
-    //MARK: - popularButton
-    private lazy var popularButton: UIButton = {
-        
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Popular", for: .normal)
-        button.setTitleColor(UIColor(red: 31.0/255.0, green: 31.0/255.0, blue: 31.0/255.0, alpha: 1.00), for: .normal)
-        button.backgroundColor = .white
-        button.layer.borderColor = UIColor(cgColor: CGColor(red: 250/255, green: 238/255, blue: 239/255, alpha: 1)).cgColor
-        button.layer.borderWidth = 1
-        button.layer.cornerRadius = 5
-        return button
-    }()
-    
     
     //MARK: - popularMoviesLabel
     private lazy var popularMoviesLabel: UILabel = {
@@ -130,7 +91,6 @@ final class PopularViewController: UIViewController, ViewModelAssociatedProtocol
         setupView()
         setupConstrains()
         moviesCollection()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -146,19 +106,7 @@ final class PopularViewController: UIViewController, ViewModelAssociatedProtocol
     
     //MARK: - setupView
     func setupView() {
-        view.addSubview(UpcomingButton)
-        view.addSubview(popularButton)
-        view.addSubview(removeCenterBorder)
         view.addSubview(popularMoviesLabel)
-    }
-    
-    //MARK: - actionUpComingButton
-    @objc func actionUpComingButton() {
-        
-        let upcomingView = UpcomingView()
-        upcomingView.modalPresentationStyle = .formSheet
-        present(upcomingView, animated: true)
-        
     }
     
     
@@ -186,20 +134,9 @@ final class PopularViewController: UIViewController, ViewModelAssociatedProtocol
         
         NSLayoutConstraint.activate([
             
-            UpcomingButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            UpcomingButton.trailingAnchor.constraint(equalTo: view.centerXAnchor),
-            UpcomingButton.widthAnchor.constraint(equalToConstant: 110),
+           
             
-            popularButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            popularButton.leadingAnchor.constraint(equalTo: UpcomingButton.trailingAnchor, constant: -10),
-            popularButton.widthAnchor.constraint(equalToConstant: 110),
-            
-            removeCenterBorder.topAnchor.constraint(equalTo: popularButton.topAnchor, constant: 1),
-            removeCenterBorder.bottomAnchor.constraint(equalTo: popularButton.bottomAnchor, constant: -1),
-            removeCenterBorder.leadingAnchor.constraint(equalTo: popularButton.leadingAnchor),
-            removeCenterBorder.widthAnchor.constraint(equalToConstant: 3),
-            
-            popularMoviesLabel.topAnchor.constraint(equalTo: popularButton.bottomAnchor, constant: 10),
+            popularMoviesLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
             popularMoviesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             
 

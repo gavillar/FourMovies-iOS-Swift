@@ -8,7 +8,7 @@
 import Foundation
 import Core
 
-typealias PopularCompletion = (Result<MovieResult, Error>, Int) -> Void
+typealias PopularCompletion = (Result<MovieResultPopular, Error>, Int) -> Void
 
 protocol PopularProviderProtocol {
     func getMovies(completion: @escaping PopularCompletion)

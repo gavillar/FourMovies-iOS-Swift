@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+typealias UpcomingCompletion = (Result<MovieResultUpcoming, Error>, Int) -> Void
+
+protocol UpcomingProviderProtocol {
+    func getMovies(completion: @escaping UpcomingCompletion)
+}

@@ -12,7 +12,7 @@ class MovieDetailsViewPopularCollectionCell: UICollectionViewCell {
     
     static let identifier = "movieDetailsViewCollectionCell"
     
-    var dataList = [ResultMovies]()
+    
     
      lazy var castImage: UIImageView = {
         let image = UIImageView()

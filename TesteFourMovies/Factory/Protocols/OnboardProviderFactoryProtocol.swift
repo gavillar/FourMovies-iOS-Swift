@@ -10,4 +10,7 @@ import Foundation
 protocol OnboardProviderFactoryProtocol {
     var popularProvider: PopularProviderProtocol { get }
     var popularFactory: PopularProviderFactoryProtocol { get }
+    
+    var upcomingProvider: UpcomingProviderProtocol { get }
+    var upcomingFactory: UpcomingProviderFactoryProtocol { get }
 }

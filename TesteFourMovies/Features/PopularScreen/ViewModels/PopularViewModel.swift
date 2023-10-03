@@ -15,7 +15,7 @@ class PopularViewModel: PopularViewModelProtocol {
     private let manager: PopularManager
     private let presenter: PopularPresenter
     
-    var cachedData: [MovieResult] = []
+    var cachedData: [MovieResultPopular] = []
     
     required init(provider: PopularProviderProtocol,
                   presenter: PopularPresenter) {
@@ -32,7 +32,7 @@ class PopularViewModel: PopularViewModelProtocol {
             case .success(let data):
                 self.cachedData = [data]
                 
-                let models = self.cachedData.first?.results?.enumerated().compactMap({ index, movies -> PopularItemCellViewModel in
+                let models = self.cachedData.first?.results.enumerated().compactMap({ index, movies -> PopularItemCellViewModel in
                         
                     return PopularItemCellViewModel(movies: movies)
                     })

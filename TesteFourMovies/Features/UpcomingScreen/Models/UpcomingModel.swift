@@ -9,11 +9,10 @@ import Foundation
 import Alamofire
 
 
-// MARK: - MovieResult
-struct MovieResult: Codable {
+struct MovieResultUpcoming: Codable {
     let dates: Dates?
     let page: Int?
-    var results: [ResultMovies]?
+    var results: [ResultUpcoming]?
     let totalPages, totalResults: Int?
 
     enum CodingKeys: String, CodingKey {
@@ -23,13 +22,11 @@ struct MovieResult: Codable {
       }
   }
 
-// MARK: - Dates
 struct Dates: Codable {
     let maximum, minimum: String
 }
 
-// MARK: - Result
-struct ResultMovies: Codable {
+struct ResultUpcoming: Codable {
     let adult: Bool?
     let backdropPath: String?
     let genreIDS: [Int]?
@@ -58,9 +55,3 @@ struct ResultMovies: Codable {
      }
  }
 
-enum OriginalLanguage: String, Codable {
-    case en = "en"
-    case es = "es"
-    case ja = "ja"
-    case ko = "ko"
-}

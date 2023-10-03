@@ -11,7 +11,10 @@ import Foundation
 struct ProvidersFactory {}
 
 extension ProvidersFactory: OnboardProviderFactoryProtocol {
+
     var popularProvider: PopularProviderProtocol { PopularProvider() }
+    
+    var upcomingProvider: UpcomingProviderProtocol { UpcomingProvider() }
 }
 
 extension ProvidersFactory: PopularProviderFactoryProtocol {
@@ -19,3 +22,9 @@ extension ProvidersFactory: PopularProviderFactoryProtocol {
     
     var popularFactory: PopularProviderFactoryProtocol { ProvidersFactory() }
 }
+
+
+extension ProvidersFactory: UpcomingProviderFactoryProtocol {
+    var upcomingFactory: UpcomingProviderFactoryProtocol { ProvidersFactory() }
+}
+

@@ -16,14 +16,14 @@ class PopularItemCellViewModel: PopularItemCellViewModelProtocol {
     var movieName = Bindable<String?>(nil)
     var movieDate = Bindable<String?>(nil)
     
-    required init(movies: ResultMovies) {
+    required init(movies: ResultPopular) {
             self.movieName.value = movies.title
             self.movieDate.value = movies.releaseDate
         
             convertImage(movies: movies)
         }
     
-    private func convertImage(movies: ResultMovies) {
+    private func convertImage(movies: ResultPopular) {
         
         if let imageUrlString = movies.posterPath,
            let imageUrl = URL(string: "https://image.tmdb.org/t/p/w342\(imageUrlString)") {
