@@ -9,33 +9,43 @@ import Foundation
 import UIKit
 
 
-class UpcomingViewCollectionCell: UICollectionViewCell {
+class UpcomingViewCollectionCell: UICollectionViewCell, ViewModelAssociatedProtocol {
     
     static let identifier = "upcomingCollectionCell"
     
     
-     lazy var imageMovie: UIImageView = {
+    typealias ViewModel = UpcomingItemCellViewModelProtocol
+    
+    var viewModel: ViewModel? {
+        didSet {
+            guard viewModel == nil else { return inflate() }
+            reset()
+        }
+    }
+    
+    
+    private let imageMovie: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.backgroundColor = .lightGray
         return image
     }()
     
-     lazy var dataMovie: UILabel = {
+    private let dataMovie: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "00/00/00"
+        label.text = ""
         label.textColor = .white
         label.textAlignment = .center
         label.layer.borderWidth = 1
         label.layer.borderColor = UIColor(cgColor: CGColor(red: 250/255, green: 238/255, blue: 239/255, alpha: 1)).cgColor
-       return label
+        return label
     }()
     
-     lazy var titleMovie: UILabel = {
+    private let titleMovie: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.text = "A volta dos que não foram"
+        label.text = ""
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -49,18 +59,44 @@ class UpcomingViewCollectionCell: UICollectionViewCell {
         contentView.addSubview(imageMovie)
         contentView.addSubview(dataMovie)
         
-        setupConstrains()
         
+        setupConstrains()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func reset() {
+        titleMovie.text = nil
+        imageMovie.image = nil
+        dataMovie.text = nil
+    }
+    
+    private func inflate() {
+        
+        viewModel?.movieName.bind({ [weak self] name in
+            guard let self = self else { return }
+            self.titleMovie.text = name
+            self.layoutIfNeeded()
+        })
+        
+        viewModel?.movieDate.bind({ [weak self] date in
+            guard let self = self else { return }
+            self.dataMovie.text = date
+            self.layoutIfNeeded()
+        })
+        
+        viewModel?.movieImage.bind({ [weak self] image in
+            guard let self = self else { return }
+            self.imageMovie.image = image
+            self.layoutIfNeeded()
+        })
+    }
+    
     private func setupConstrains() {
         
         NSLayoutConstraint.activate([
-            
             
             imageMovie.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageMovie.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -77,11 +113,6 @@ class UpcomingViewCollectionCell: UICollectionViewCell {
             titleMovie.trailingAnchor.constraint(equalTo: imageMovie.trailingAnchor),
             titleMovie.heightAnchor.constraint(equalToConstant: 50)
             
-         
-                       
-        
-        
-        
         ])
         
     }

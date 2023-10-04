@@ -22,10 +22,10 @@ class UpcomingPresenter: Presenter, UpcomingPresenterProtocol {
 
             let controller = UpcomingViewController()
 
-           // let viewModel = PopularViewModel(provider: providerFactory.popularProvider, presenter: self)
+            let viewModel = UpcomingViewModel(provider: providerFactory.upcomingProvider, presenter: self)
 
             controller.title = "Upcoming"
-           // controller.viewModel = viewModel
+            controller.viewModel = viewModel
 
             let navigationController = UINavigationController(rootViewController: controller)
             navigationController.tabBarItem = UITabBarItem(title: "Upcoming", image: UIImage(systemName: "film"), selectedImage: UIImage(systemName: "film"))

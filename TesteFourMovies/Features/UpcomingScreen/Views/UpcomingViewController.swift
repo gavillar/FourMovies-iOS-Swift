@@ -7,11 +7,16 @@
 
 import UIKit
 
-final class UpcomingViewController: UIViewController {
+final class UpcomingViewController: UIViewController, ViewModelAssociatedProtocol {
     
+    typealias ViewModel = UpcomingViewModelProtocol
+    
+    var viewModel: ViewModel?
     
     //MARK: - var and let
-    let upcomingviewmodel = UpcomingViewModel()
+    
+    var dataSource: [UpcomingItemCellViewModelProtocol] = []
+    
     private var collectionView: UICollectionView?
   
     //MARK: - prefersStatusBarHidden
@@ -19,42 +24,6 @@ final class UpcomingViewController: UIViewController {
         false
     }
 
-    //MARK: - removeCenterBorder
-    private let removeCenterBorder: UIView = {
-       let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .black
-        view.isHidden = false
-        return view
-    }()
-    
-    //MARK: - UpcomingButton
-    private lazy var UpcomingButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Upcoming", for: .normal)
-        button.setTitleColor(UIColor(red: 31.0/255.0, green: 31.0/255.0, blue: 31.0/255.0, alpha: 1.00), for: .normal)
-        button.backgroundColor = .white
-        button.layer.borderColor = UIColor(cgColor: CGColor(red: 250/255, green: 238/255, blue: 239/255, alpha: 1)).cgColor
-        button.layer.borderWidth = 1
-        button.layer.cornerRadius = 5
-       return button
-    }()
-    
-    //MARK: - popularButton
-    private lazy var popularButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Popular", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor(red: 31.0/255.0, green: 31.0/255.0, blue: 31.0/255.0, alpha: 1.0)
-        button.layer.borderColor = UIColor(cgColor: CGColor(red: 250/255, green: 238/255, blue: 239/255, alpha: 1.0)).cgColor
-        button.layer.borderWidth = 1
-        button.layer.cornerRadius = 5
-       return button
-    }()
-    
-    
     //MARK: - upcomingMoviesLabel
     private lazy var upcomingMoviesLabel: UILabel = {
         let label = UILabel()
@@ -99,25 +68,57 @@ final class UpcomingViewController: UIViewController {
         
     }
     
-    //MARK: - loadView
-    override func loadView() {
-        super.loadView()
-        self.view.backgroundColor = UIColor(red: 31.0/255.0, green: 31.0/255.0, blue: 31.0/255.0, alpha: 1.0)
+    //MARK: - viewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
+        bindElements()
         setupView()
         setupConstrains()
         moviesCollection()
+    }
     
+    //MARK: - viewWillAppear
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        refresh()
     }
     
     
+    @objc
+    private func refresh() {
+        viewModel?.fetch()
+    }
+    
     //MARK: - setupView
     private func setupView() {
-        
+        self.view.backgroundColor = UIColor(red: 31.0/255.0, green: 31.0/255.0, blue: 31.0/255.0, alpha: 1.0)
         view.addSubview(upcomingMoviesLabel)
 
     }
     
+    
+    private func bindElements() {
+        
+        viewModel?.upcoming.bind({ [weak self] state in
+            
+            guard let self = self else { return }
+            switch state {
+            case .none:
+                ()
+        
+            case .loading:
+                ()
+            case .finished(let data):
+               
+                self.dataSource = data
+                self.collectionView?.reloadData()
+            case .failed:
+                ()
+            }
+        })
+            
+    }
     
     //MARK: - setupConstrains
     private func setupConstrains() {
@@ -148,8 +149,7 @@ extension UpcomingViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return upcomingviewmodel.count
-        0
+        return self.dataSource.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -157,7 +157,8 @@ extension UpcomingViewController: UICollectionViewDelegate, UICollectionViewData
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "upcomingCollectionCell",
                                                       for: indexPath) as! UpcomingViewCollectionCell
 
-    
+        let model = dataSource[indexPath.row]
+        cell.viewModel = model
         return cell
     }
 }

@@ -66,7 +66,7 @@ class PopularPresenter: Presenter, PopularPresenterProtocol {
 
             let controller = PopularViewController()
 
-            let viewModel = PopularViewModel(provider: providerFactory.popularProvider, presenter: self)
+        let viewModel = PopularViewModel(provider: providerFactory.popularProvider, presenter: self)
 
             controller.title = "Popular"
             controller.viewModel = viewModel

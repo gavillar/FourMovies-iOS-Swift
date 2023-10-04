@@ -8,23 +8,34 @@
 import Foundation
 
 
-struct ProvidersFactory {}
+struct ProvidersFactory: PopularProviderFactoryProtocol, UpcomingProviderFactoryProtocol {
+    
+    
+    var onboardProviderFactory: OnboardProviderFactoryProtocol {
+        return ProvidersFactory()
+    }
+}
 
 extension ProvidersFactory: OnboardProviderFactoryProtocol {
-
-    var popularProvider: PopularProviderProtocol { PopularProvider() }
     
-    var upcomingProvider: UpcomingProviderProtocol { UpcomingProvider() }
-}
-
-extension ProvidersFactory: PopularProviderFactoryProtocol {
-    var onboardProviderFactory: OnboardProviderFactoryProtocol { ProvidersFactory() }
     
-    var popularFactory: PopularProviderFactoryProtocol { ProvidersFactory() }
+    var popularProvider: PopularProviderProtocol {
+        return PopularProvider()
+    }
+    
+    var popularFactory: PopularProviderFactoryProtocol {
+        return self
+    }
+    
+    var upcomingProvider: UpcomingProviderProtocol {
+        return UpcomingProvider()
+    }
+    
+    var upcomingFactory: UpcomingProviderFactoryProtocol {
+        self
+    }
 }
 
 
-extension ProvidersFactory: UpcomingProviderFactoryProtocol {
-    var upcomingFactory: UpcomingProviderFactoryProtocol { ProvidersFactory() }
-}
-
+    
+  

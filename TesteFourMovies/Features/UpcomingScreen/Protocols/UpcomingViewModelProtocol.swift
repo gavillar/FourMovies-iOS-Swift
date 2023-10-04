@@ -6,11 +6,10 @@
 //
 
 import Foundation
+import Core
 
 protocol UpcomingViewModelProtocol {
-    
-    
-    
-    
-    
+    var upcoming: Bindable<ModelState<[UpcomingItemCellViewModelProtocol]>> { get }
+    var cachedData: [MovieResultUpcoming] { get }
+    func fetch()
 }
